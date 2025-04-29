@@ -1,0 +1,154 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #161618;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Inter", sans-serif;
+}
+
+a {
+color: white;
+text-decoration: none;
+}
+
+img {
+max-width: 100%;
+display: block;
+}
+
+/* Navbar */
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    padding: 20px 40px;
+    box-sizing: border-box;
+    background: transparent;
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    right: 0;
+}
+
+/* Hero */
+.hero {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    grid-column-gap: 10%;
+    align-items: center;
+    align-content: center;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 40px 20px;
+    padding-top: 15%;
+    padding-bottom: 15%;
+    position: relative;
+    background-image: url(../assets/starrynightbackground.png);
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-text{
+    text-align: left;
+}
+
+.hero-text h1 {
+    font-size: 32px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.hero-text h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.hero-image img {
+width: 130px;
+height: 130px;
+border-radius: 50%;
+object-fit: cover;
+margin-top: 20px;
+border: 4px solid white;
+}
+
+/* Main Grid */
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
+/*    grid-auto-rows: 200px;*/
+    gap: 20px;
+    padding: 20px;
+    max-width: 1000px;
+    margin: 40px auto;
+    box-sizing: border-box;
+}
+
+.card {
+    border-radius: 30px;
+    background-color: #212124;
+    padding: 20px;
+    aspect-ratio: 5 / 4;
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Cards */
+#about{
+    grid-column: span 4;
+}
+#socials{
+    grid-column: span 2;
+}
+#projects{
+    grid-column: span 3;
+}
+#notify{
+    grid-column: span 3;
+}
+
+
+@media (max-width: 768px) {
+    .content-grid {
+            grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+
+    /* Social card */
+    .social {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .avatar {
+        width: 80px;
+        height: 80px;
+        background-color: gray;
+        border-radius: 50%;
+        margin-bottom: 15px;
+    }
+
+    .icons {
+        display: flex;
+        gap: 15px;
+    }
+
+    .icons img {
+        width: 24px;
+        height: 24px;
+        background-color: white;
+        padding: 6px;
+        border-radius: 50%;
+    }
+
