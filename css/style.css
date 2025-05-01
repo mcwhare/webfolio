@@ -83,22 +83,27 @@ border: 4px solid white;
     display: grid;
     grid-template-columns: repeat(6,1fr);
 /*    grid-auto-rows: 200px;*/
-    gap: 20px;
+    gap: 5%;
     padding: 20px;
-    max-width: 1000px;
-    margin: 40px auto;
+/*    max-width: 1000px;*/
+    width: 70%;
+    margin: 40px;
     box-sizing: border-box;
+    align-items: stretch;
+
+
 }
 
 .card {
     border-radius: 30px;
     background-color: #212124;
     padding: 20px;
-    aspect-ratio: 5 / 4;
+/*    aspect-ratio: 5 / 4;*/
     display: flex;
     box-sizing: border-box;
     flex-direction: column;
-    justify-content: space-between;
+    min-height: 450px;
+
 }
 
 /* Cards */
@@ -107,6 +112,9 @@ border: 4px solid white;
 }
 #socials{
     grid-column: span 2;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10%;
 }
 #projects{
     grid-column: span 3;
