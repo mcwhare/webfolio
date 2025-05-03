@@ -1,3 +1,6 @@
+html {
+    scroll-behavior: smooth;
+}
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -21,6 +24,35 @@ display: block;
 
 p2{
     font-size: 15px;
+}
+
+/* Animations */
+@keyframes dissolve-blur {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+.hero-text h1 {
+  opacity: 0;
+  animation: dissolve-blur 1.4s cubic-bezier(0.25, 0.1, 0.25, 1) 0.3s forwards;
+}
+
+.hero-text h2 {
+  opacity: 0;
+  animation: dissolve-blur 1.2s cubic-bezier(0.25, 0.1, 0.25, 1) 0.6s forwards;
+}
+
+.hero-image {
+  opacity: 0;
+  animation: dissolve-blur 1s cubic-bezier(0.25, 0.1, 0.25, 1) 0.9s forwards;
 }
 
 /* Navbar */
@@ -93,11 +125,11 @@ border: 4px solid white;
     gap: 5%;
     padding: 20px;
 /*    max-width: 1000px;*/
-    width: 70%;
+    width: 60%;
     margin: 40px;
     box-sizing: border-box;
     align-items: stretch;
-
+    padding-bottom: 100px;
 
 }
 
@@ -105,13 +137,83 @@ border: 4px solid white;
     border-radius: 30px;
     background-color: #212124;
     padding: 20px;
-/*    aspect-ratio: 5 / 4;*/
     display: flex;
     box-sizing: border-box;
     flex-direction: column;
     min-height: 450px;
-
 }
+
+/* Card animation styles - side entrance */
+.card {
+    opacity: 0;
+    transition: all 0.9s ease-out;
+    will-change: transform, opacity;
+}
+
+/* Alternate slide directions for visual interest */
+.card:nth-child(odd) {
+    transform: translateX(-50px);
+}
+
+.card:nth-child(even) {
+    transform: translateX(50px);
+}
+
+.card.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Image Card Styles */
+.image-card {
+  position: relative;
+  overflow: hidden;
+  padding: 0; /* Remove default padding */
+  min-height: 300px; /* Adjust as needed */
+}
+
+#notify .card-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background-image: url('../assets/notify-preview2.png');
+    background-size: contain;
+    background-position: top;
+    z-index: 1;
+    overflow: hidden;
+    border-radius: inherit;
+    background-repeat: no-repeat;
+    background-clip: content-box;
+}
+
+.card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    padding-bottom: 40px;
+    background-color: inherit;
+/*    backdrop-filter: blur(5px);  Frosted glass effect */
+    z-index: 2;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    align-items: top;
+    margin-top: 0;
+}
+.card-content p{
+    margin-top: 0;
+}
+.card-content h2{
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
 
 /* Cards */
 #about{
@@ -129,18 +231,13 @@ border: 4px solid white;
 #notify{
     grid-column: span 3;
 }
-@media (max-width: 1000px) {
-    p2{
-        font-size: 12px;
-    }
-}
+
+
 
 @media (max-width: 768px) {
     .content-grid {
-            grid-template-columns: repeat(2, 1fr);
-    }
-    p2{
-        font-size: 16px;
+        grid-template-columns: repeat(2, 1fr);
+        padding-bottom: 500px;
     }
     .hero{
         gap:40%;
@@ -150,6 +247,15 @@ border: 4px solid white;
     .hero-text{
         width: 10%;
     }
+    .icons img{
+        width: 50px;
+        height: 50px;
+        margin: 0 3px;
+    }
+    .card-content{
+        height: auto;
+    }
+
 }
 
 
@@ -162,23 +268,46 @@ border: 4px solid white;
     }
 
     .avatar {
-        width: 80px;
-        height: 80px;
+        width: 102px;
+        height: 102px;
         background-color: gray;
         border-radius: 50%;
         margin-bottom: 15px;
+        text-align: center;
+        border: 4px solid white;
     }
 
     .icons {
         display: flex;
         gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center
     }
 
     .icons img {
-        width: 24px;
-        height: 24px;
+        width: 36px;
+        height: 36px;
         background-color: white;
-        padding: 6px;
-        border-radius: 50%;
+        padding: 9px;
+        border-radius: 30%;
+        align-content: center;
+        object-fit: contain;
+
     }
 
+
+.footer{
+    position: relative;
+    background-image: url(../assets/starrynightbackground.png);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 250px;
+    width: 100%;
+    margin-top: 0px;
+    border: none;
+}
+.footer-content {
+    margin: 0 auto;
+    height: 100%;
+}

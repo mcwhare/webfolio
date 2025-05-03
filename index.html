@@ -1,11 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>mcwh</title>
-  <link rel="stylesheet" href="css/style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mcwh</title>
+    <link rel="stylesheet" href="css/style.css" />
 </head>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.card');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, index * 150); // Staggered delay
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.5,
+      rootMargin: '0px 0px -100px 0px'
+    });
+
+    cards.forEach(card => {
+      observer.observe(card);
+    });
+  });
+</script>
+
 <body>
 
 <!-- Navbar -->
@@ -30,33 +55,43 @@
     <main class="content-grid">
 
         <section id="about" class="card">
-            <h3>About</h3>
-            <p>Software Engineering student at Monash University</p>
+            <h2>About:</h2>
+            <p>Software Engineering student at Monash University.</p>
         </section>
 
         <section id="socials" class="card">
-            <div class="avatar"></div>
+            <div class="avatar"><img src="assets/profile.png" alt="Profile" /><p>Marcus Chan</p></div>
             <div class="icons">
-                <a href="#"><img src="images/icon1.png" alt="Icon 1" /></a>
-                <a href="#"><img src="images/icon2.png" alt="Icon 2" /></a>
-                <a href="#"><img src="images/icon3.png" alt="Icon 3" /></a>
+                <a href="#"><img src="/assets/Github.svg" alt="Github" /></a>
+                <a href="#"><img src="/assets/Linkedin.svg" alt="LinkedIn" /></a>
+                <a href="#"><img src="/assets/Mail.svg" alt="Mail" /></a>
+                <a href="#"><img src="/assets/Discord.svg" alt="Discord" /></a>
             </div>
-            <div>
-                <p2>Email: marcus.chanwh05@gmail.com</p2>
-            </div>
+            <div></div>
         </section>
 
         <section id="projects" class="card">
-            <h3>Projects and experience:</h3>
-            <p>[Brief description or list of projects]</p>
+            <h2>Projects and experience:</h2>
+            <p><strong>Notify:</strong> Android App made with Flutter</p>
         </section>
 
         <section id="notify" class="card">
-            <h3>Notify</h3>
-            <img src="images/notify-preview.jpg" alt="Notify Project Preview" />
+            <div class="card-image"></div>
+            <div class="card-content">
+                <h2>Notify</h2>
+                <p>Notify is the smarter way to stay on top of your tasks. Instead of relying on fleeting pop-ups or buried to-do lists, Notify lets you pin reminders directly to your notification shade so they’re always visible, right where you’ll see them.</p>
+
+            </div>
+
         </section>
 
     </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+
+        </div>
+    </footer>
 
 </body>
 </html>
