@@ -31,6 +31,48 @@
   });
 </script>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Create feedback element once
+    const feedback = document.createElement('div');
+    feedback.className = 'copy-feedback';
+    document.body.appendChild(feedback);
+
+    // Email copy handler
+    const emailBtn = document.querySelector('a[href^="mailto"]');
+    if (emailBtn) {
+      emailBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        copyWithFeedback('marcus.chanwh05@gmail.com', 'Email copied!');
+      });
+    }
+
+    // Discord copy handler
+    const discordBtn = document.querySelector('a[href="https://discord.com"]');
+    if (discordBtn) {
+      discordBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        copyWithFeedback('suavere', 'Discord username copied!');
+      });
+    }
+
+    function copyWithFeedback(text, message) {
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          feedback.textContent = message;
+          feedback.classList.add('show');
+          setTimeout(() => feedback.classList.remove('show'), 2000);
+        })
+        .catch(() => {
+          // Fallback to default behavior if copy fails
+          window.location.href = text.includes('@')
+            ? `mailto:${text}`
+            : 'https://discord.com';
+        });
+    }
+  });
+</script>
+
 <body>
 
 <!-- Navbar -->
@@ -64,8 +106,9 @@
             <div class="icons">
                 <a href="#"><img src="assets/Github.png" alt="Github" /></a>
                 <a href="#"><img src="assets/Linkedin.png" alt="LinkedIn" /></a>
-                <a href="#"><img src="assets/Mail.png" alt="Mail" /></a>
-                <a href="#"><img src="assets/Discord.png" alt="Discord" /></a>
+                <a href="mailto:marcus.chanwh05@gmail.com" onclick="navigator.clipboard.writeText('marcus.chanwh05@gmail.com')" class="copy-button"><img src="assets/Mail.png" alt="Mail" /></a>
+                <a href="https://discord.com" onclick="navigator.clipboard.writeText('suavere')" class="copy-button"><img src="assets/Discord.png" alt="Discord" /></a>
+
             </div>
             <div></div>
         </section>
