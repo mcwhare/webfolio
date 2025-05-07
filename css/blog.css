@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -190,4 +194,176 @@ border: 4px solid white;
 .footer-content {
     margin: 0 auto;
     height: 100%;
+}
+
+/* Add this to your existing CSS */
+.country-divider {
+    width: 100%;
+    text-align: center;
+    background-color: #161618; /* Match your body background */
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 10px 0;
+    position: relative;
+    grid-column: 1 / -1; /* Make it span all columns */
+}
+
+.country-divider::before,
+.country-divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 30%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.country-divider::before {
+    left: 0;
+}
+
+.country-divider::after {
+    right: 0;
+}
+
+/* Adjust your content grid to accommodate the dividers */
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5%;
+    grid-row-gap: 1%;
+    padding: 20px;
+    width: 50%;
+    margin: 40px auto; /* Center the grid */
+    align-items: stretch;
+}
+
+/* Media query adjustments for mobile */
+@media (max-width: 768px) {
+    .content-grid {
+        width: 90%;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .country-divider {
+        font-size: 1.2rem;
+        padding: 10px 0;
+        margin: 20px 0;
+    }
+
+    .country-divider::before,
+    .country-divider::after {
+        width: 20%;
+    }
+
+    .card.horizontal,
+    .card.superwide {
+        grid-column: span 2;
+    }
+}
+
+/* For very small screens */
+@media (max-width: 480px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card.horizontal,
+    .card.superwide {
+        grid-column: span 1;
+    }
+
+    .country-divider::before,
+    .country-divider::after {
+        width: 15%;
+    }
+}
+
+.hover-tabs {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 1000;
+    padding: 8px;
+    z-index: 1; /* Lower z-index */
+}
+
+.hover-tab {
+  width: 30px;
+  height: 4px;
+  background-color: #888;
+  transition: background-color 0.3s, width 0.3s;
+  position: relative;
+  text-decoration: none;
+}
+
+.hover-tab:hover,
+.hover-tab.active {
+  background-color: #fff;
+  width: 60px;
+}
+
+.hover-tab .label {
+  position: absolute;
+  left: 70px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: opacity 0.3s;
+  font-size: 0.9rem;
+}
+
+.hover-tab:hover .label {
+  opacity: 1;
+}
+
+
+.hover-trigger {
+  position: fixed;
+  right: 0;
+  top: 40%;
+  width: 12px;
+  height: 100px;
+  background: transparent;
+  z-index: 1000;
+}
+
+/* Hover Menu Styling */
+.hover-menu {
+  position: absolute; /* Position the hover menu absolute relative to the parent */
+  left: 0;
+  top: 50px; /* Adjust this value to position it below the trigger */
+  z-index: 10; /* Higher z-index to make it appear above the hover tabs */
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  background-color: rgba(0, 0, 0, 0.8); /* For visibility */
+  color: white;
+}
+
+.hover-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.hover-menu li {
+  padding: 8px 0;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.hover-menu li:hover {
+  color: #00aaff;
 }
