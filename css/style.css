@@ -333,3 +333,51 @@ border: 4px solid white;
     height: 100%;
 }
 
+/* Overlay Styles */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    display: none;
+    overflow: auto;
+}
+
+.overlay-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    margin: 2% auto;
+    padding: 20px;
+}
+
+.overlay-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 30px;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+/* For very large images that need scrolling */
+.overlay-image.zoom {
+    width: auto;
+    max-width: none;
+    max-height: none;
+    transform-origin: 0 0;
+}
