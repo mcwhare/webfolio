@@ -76,7 +76,7 @@
 </script>
 
 <script>
-    function openNotifyOverlay() {
+    function openOverlay() {
     const overlay = document.getElementById('notifyOverlay');
     overlay.style.display = 'block';
     document.body.style.overflow = 'hidden'; // Prevent background scrolling
@@ -89,7 +89,7 @@
     overlay.focus();
 }
 
-function closeNotifyOverlay() {
+function closeOverlay() {
     const overlay = document.getElementById('notifyOverlay');
     overlay.style.display = 'none';
     document.body.style.overflow = 'auto'; // Re-enable scrolling
@@ -114,7 +114,7 @@ document.addEventListener('keydown', function(e) {
 <!-- Navbar -->
     <nav class="navbar">
         <a href="#about">About</a>
-        <a href="#contact">Contact</a>
+        <a href="#socials">Contact</a>
         <a href="blog.html">Blog</a>
     </nav>
 
@@ -155,7 +155,7 @@ document.addEventListener('keydown', function(e) {
         </section>
 
         <section id="notify" class="card">
-            <div class="card-image" onclick="openNotifyOverlay()"></div>
+            <div class="card-image" onclick="openOverlay()"></div>
             <div class="card-content">
                 <h2>Notify</h2>
                 <p>Notify is the smarter way to stay on top of your tasks. Instead of relying on fleeting pop-ups or buried to-do lists, Notify lets you pin reminders directly to your notification shade so they’re always visible, right where you’ll see them.</p>
@@ -164,10 +164,21 @@ document.addEventListener('keydown', function(e) {
 
         </section>
 
-        <div id="notifyOverlay" class="overlay" onclick="closeNotifyOverlay()">
+        <section id="random" class="card">
+            <div class="card-image"></div>
+            <div class="card-content">
+                <h2>Miscellaneous projects</h2>
+                <p>An assortment of random designs, ideas, models and prototypes. </p>
+
+            </div>
+
+        </section>
+
+
+        <div id="notifyOverlay" class="overlay" onclick="closeOverlay()">
           <div class="overlay-content" onclick="event.stopPropagation()">
             <img src="assets/notify-graphic.png" alt="Notify App Detailed Graphic" class="overlay-image">
-            <button class="close-btn" onclick="closeNotifyOverlay()">&times;</button>
+            <button class="close-btn" onclick="closeOverlay()">&times;</button>
           </div>
         </div>
 

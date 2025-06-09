@@ -231,6 +231,9 @@ border: 4px solid white;
 #notify{
     grid-column: span 3;
 }
+#random{
+    grid-column: span 4;
+}
 
 
 
@@ -360,6 +363,7 @@ border: 4px solid white;
     display: block;
     margin: 0 auto;
     max-width: 1200px;
+    border-radius: 20px;
 }
 
 .close-btn {
