@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>mcwh</title>
+        <link rel="stylesheet" href="css/misc.css" />
+<!--        <script src="scripts/scripts.js"></script>-->
+
+    </head>
+    <script>
+                // Universal Overlay System
+        function openOverlay(content, isHTML = false) {
+          const overlay = document.getElementById("overlay");
+          const contentDiv = document.getElementById("overlayContent");
+
+          if (isHTML) {
+            contentDiv.innerHTML = content;
+          } else {
+            // Default behavior for images
+            contentDiv.innerHTML = `
+              <img src="${content.url}" onclick="toggleZoom(this)">
+              ${content.caption ? `<div class="overlay-caption">${content.caption}</div>` : ''}
+            `;
+          }
+
+          overlay.style.display = "block";
+          document.body.classList.add('overlay-open');
+        }
+
+        function closeOverlay() {
+          document.getElementById("overlay").style.display = "none";
+          document.body.classList.remove('overlay-open');
+        }
+
+        function toggleZoom(img) {
+          img.classList.toggle('zoomed');
+        }
+
+        // Close with ESC key
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            closeOverlay();
+          }
+        });
+
+        // Example usage for images:
+        document.querySelectorAll('[data-overlay]').forEach(item => {
+          item.addEventListener('click', function() {
+            if (this.dataset.overlay === 'image') {
+              openOverlay({
+                url: this.src,
+                caption: this.dataset.caption || ''
+              });
+            }
+            // Add other types as needed
+          });
+        });
+    </script>
+
+    <body>
+
+    <!-- Navbar -->
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="index.html#about">About</a>
+            <a href="index.html#socials">Contact</a>
+        </nav>
+
+      <!-- Hero Section -->
+      <header class="hero">
+        <div class="hero-text">
+          <h1>Miscellaneous projects</h1>
+        </div>
+      </header>
+
+            <!-- Main Content -->
+        <main class="content-grid">
+
+            <section id="image" class="card">
+                <img src="misc-images/Carhook.png" loading="lazy"
+                 data-caption="Carhook. A fake product that I 3D modelled and printed."
+                 data-overlay="image" class="overlay-trigger">
+            </section>
+
+
+
+            <div id="overlay" class="overlay" onclick="closeOverlay()">
+              <div class="overlay-container" onclick="event.stopPropagation()">
+                <div class="overlay-content" id="overlayContent"></div>
+                <button class="close-btn" onclick="closeOverlay()">&times;</button>
+              </div>
+            </div>
+
+        </main>
+        <footer class="footer">
+            <div class="footer-content">
+
+            </div>
+        </footer>
+
+
+    </body>
+</html>
