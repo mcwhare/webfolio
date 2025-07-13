@@ -186,7 +186,26 @@ border: 4px solid white;
     border-radius: inherit;
     background-repeat: no-repeat;
     background-clip: content-box;
+    cursor: pointer;
 }
+
+#random .card-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background-image: url('../assets/misc-preview.png');
+    background-size: contain;
+    background-position: top;
+    z-index: 1;
+    overflow: hidden;
+    border-radius: 30px;
+    background-repeat: no-repeat;
+    background-clip: content-box;
+    cursor: pointer;
+}
+
 
 .card-content {
     position: absolute;
@@ -350,22 +369,24 @@ border: 4px solid white;
     z-index: 1000;
     display: none;
     overflow: auto;
+    align-items: center;
 }
 
 .overlay-content {
     position: relative;
-    max-width: 90%;
+    max-width: 70%;
     max-height: 90%;
     margin: 2% auto;
     padding: 20px;
+    width: auto;
 }
 
 .overlay-image {
     width: 100%;
     height: auto;
     display: block;
-    margin: 0 auto;
-    max-width: 1200px;
+    margin: 0;
+
     border-radius: 20px;
 }
 
