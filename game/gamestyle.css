@@ -105,7 +105,7 @@ body{
 .subtitle {
   font-size: 14px;
   color: #333;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 hr {
@@ -143,4 +143,32 @@ hr {
 a {
 color: white;
 text-decoration: none;
+}
+
+
+.key.on-cooldown {
+    position: relative;
+    opacity: 0.8;
+}
+
+.key.on-cooldown::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ff5722, #ff9800);
+    animation: cooldown linear;
+    animation-duration: var(--cooldown-duration);
+}
+
+@keyframes cooldown {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+
+#cooldown-e {
+    font-style: italic;
+    transition: color 0.3s;
 }

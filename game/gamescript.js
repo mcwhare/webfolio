@@ -97,12 +97,99 @@ class WKey extends Key {
     }
 }
 
+class EKey extends Key {
+    constructor(game) {
+        super('E', 0, 200, true);
+        this.game = game;
+        this.baseCooldownPerKey = 2000; // 2 seconds per key in ms
+        this.cooldownReduction = 0; // Starts at 0, increases with upgrades
+        this.currentCooldown = 0;
+        this.cooldownEndTime = 0;
+    }
+
+    press() {
+        if (this.locked || this.isOnCooldown()) return 0;
+
+        // Count only unlocked keys (Q/W/E)
+        const unlockedKeys = Object.values(this.game.keys).filter(
+            key => !key.locked
+        ).length;
+
+        const totalCooldown = Math.max(
+            1000, // Minimum 1 second
+            (this.baseCooldownPerKey * unlockedKeys) - this.cooldownReduction
+        );
+
+        this.startCooldown(totalCooldown);
+        this.isPressed = true;
+
+        // Calculate points from other unlocked keys (Q/W only)
+        return this.calculateCombinedValue();
+    }
+
+    calculateCombinedValue() {
+        let combinedValue = 0;
+        for (const [keyName, key] of Object.entries(this.game.keys)) {
+            if (keyName !== 'e' && !key.locked) {
+                combinedValue += key.value;
+            }
+        }
+        return combinedValue;
+    }
+
+    startCooldown(duration) {
+        this.currentCooldown = duration;
+        this.cooldownEndTime = performance.now() + duration;
+    }
+
+    isOnCooldown() {
+        return performance.now() < this.cooldownEndTime;
+    }
+
+    update(deltaTime) {
+        if (this.isOnCooldown()) {
+            // Keep pressed during cooldown
+            this.isPressed = true;
+        } else if (this.isPressed) {
+            // Release when cooldown ends
+            this.isPressed = false;
+        }
+    }
+
+    upgrade() {
+        if (this.locked) {
+            this.locked = false;
+        } else {
+            // Reduce cooldown by 200ms per upgrade
+            this.cooldownReduction += 200;
+            this.upgradeCost = Math.floor(this.upgradeCost * 1.5);
+            this.level++;
+        }
+        this.updateVisualState();
+    }
+    updateVisualState() {
+        super.updateVisualState();
+        if (!this.element) return;
+
+        // Add cooldown visual feedback
+        if (this.isOnCooldown()) {
+            const remaining = this.cooldownEndTime - performance.now();
+            this.element.classList.add('on-cooldown');
+            this.element.style.setProperty('--cooldown-duration', `${remaining}ms`);
+        } else {
+            this.element.classList.remove('on-cooldown');
+            this.element.style.removeProperty('--cooldown-duration');
+        }
+    }
+}
+
 class Game {
     constructor() {
-        this.points = 0;
+        this.points = 200;
         this.keys = {
             'q': new QKey(),
-            'w': new WKey()
+            'w': new WKey(),
+            'e': new EKey(this)
         };
         this.activePresses = new Set();
         this.lastUpdateTime = performance.now();
@@ -176,14 +263,32 @@ class Game {
                 this.render();
             }
         });
+
+        document.getElementById('upgrade-E').addEventListener('click', () => {
+            const key = this.keys['e'];
+            if (this.points >= key.upgradeCost) {
+                this.points -= key.upgradeCost;
+                if (key.locked) {
+                    key.unlock();
+                    document.getElementById('upgrade-E').classList.remove('locked');
+                } else {
+                    key.upgrade();
+                }
+                this.render();
+            }
+        });
     }
 
     gameLoop() {
         const now = performance.now();
-        const deltaTime = Math.min(now - this.lastUpdateTime, 100);
+        const deltaTime = now - this.lastUpdateTime;
         this.lastUpdateTime = now;
 
-        // Only W key gets continuous points
+        // Update E key cooldown
+        this.keys['e'].update(deltaTime);
+
+        this.render()
+        // Existing W key hold logic
         if (this.activePresses.has('w')) {
             const wKey = this.keys['w'];
             if (!wKey.locked) {
@@ -205,18 +310,47 @@ class Game {
         // Update key info displays
         this.updateKeyInfo('q');
         this.updateKeyInfo('w');
+        this.updateKeyInfo('e');
     }
 
     updateKeyInfo(keyName) {
         const key = this.keys[keyName];
-        document.getElementById(`sub-${keyName}`).textContent =
-            `Generates ${key.value}p per press${keyName === 'w' ? '. Can be held down.' : ''}`;
-        document.getElementById(`cost-${keyName}`).textContent =
-            `Upgrade cost: ${key.upgradeCost}`;
-        document.getElementById(`change-${keyName}`).textContent =
-            `${key.value}p → ${key.increment + key.value}p`;
-        document.getElementById(`level-${keyName}`).textContent =
-            `${key.level}x`;
+
+        // Existing Q and W key displays
+        if (keyName === 'q' || keyName === 'w') {
+            document.getElementById(`sub-${keyName}`).textContent =
+                `Generates ${key.value}p per press${keyName === 'w' ? '. Can be held down.' : ''}`;
+            document.getElementById(`cost-${keyName}`).textContent =
+                `Upgrade cost: ${key.upgradeCost}`;
+            document.getElementById(`change-${keyName}`).textContent =
+                `${key.value}p → ${key.increment + key.value}p`;
+            document.getElementById(`level-${keyName}`).textContent =
+                `${key.level}x`;
+        }
+
+        // Enhanced E key display
+        if (keyName === 'e') {
+            const unlockedKeys = Object.values(this.keys).filter(k => !k.locked).length;
+            const currentPerKey = (2000 - key.cooldownReduction) / 1000;
+            const nextPerKey = Math.max(0.1, (currentPerKey - 0.2)).toFixed(1);
+            const currentTotal = (2000 * unlockedKeys - key.cooldownReduction) / 1000;
+
+            document.getElementById(`cost-${keyName}`).textContent =
+                key.locked ? `Unlock cost: ${key.upgradeCost}` : `Upgrade cost: ${key.upgradeCost}`;
+            document.getElementById(`change-${keyName}`).textContent =
+                key.locked ? "Locked" : `${currentPerKey.toFixed(1)}s → ${nextPerKey}s per key`;
+            document.getElementById(`level-${keyName}`).textContent =
+                `${key.level}x`;
+
+            // Update cooldown display
+            const cooldownElement = document.getElementById(`cooldown-${keyName}`);
+            if (key.isOnCooldown()) {
+                const remaining = ((key.cooldownEndTime - performance.now()) / 1000).toFixed(1);
+                cooldownElement.textContent = `Cooldown: ${remaining}s remaining (${unlockedKeys} keys)`;
+            } else {
+                cooldownElement.textContent = `Total cooldown: ${currentTotal.toFixed(1)}s`;
+            }
+        }
     }
 }
 
