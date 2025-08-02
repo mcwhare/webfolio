@@ -16,13 +16,41 @@
             <br>
 
             <div id = "keys-container">
-                <img src="gameassets/Q.png" class="key" id="Key-Q" data-key="q">
-                <img src="gameassets/lock.png" class="key locked" id="Key-W" data-key="w">
+                <img src="gameassets/Q.png" class="key" id="key-q" data-key="q">
+                <img src="gameassets/lock.png" class="key locked" id="key-w" data-key="w">
             </div>
 
             <div class="upgrades-container">
-            <button class="upgrade-btn" id="upgrade-Q">Upgrade Q (Cost: 10)</button>
-            <button class="upgrade-btn" id="upgrade-W">Upgrade W (Cost: 20)</button>
+
+                <button class="upgrade-button" id="upgrade-Q" >
+                    <div class="left">Q</div>
+                    <div class="center">
+                        <div class="title">Press Q to ult</div>
+                        <div class="subtitle" id="sub-q">Generates 1p per press</div>
+                        <hr>
+                        <div class="details">
+                            <div id="cost-q">Upgrade cost: 10</div>
+                            <div id="change-q">1p -> 2p</div>
+                        </div>
+                    </div>
+                    <div class="right" id="level-q">x1</div>
+                </button>
+                <br>
+                <button class="upgrade-button" id="upgrade-W" >
+                    <div class="left">W</div>
+                    <div class="center">
+                        <div class="title">Wet like water</div>
+                        <div class="subtitle" id="sub-w">Generates 5p per press. Can be held down</div>
+                        <hr>
+                        <div class="details">
+                            <div id="cost-w">Unlock cost: 20</div>
+                            <div id="change-w">5p</div>
+                        </div>
+                    </div>
+                    <div class="right" id="level-w">x1</div>
+                </button>
+
+
             <!-- Add more upgrade buttons here as needed -->
             </div>
 

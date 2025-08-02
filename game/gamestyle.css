@@ -11,8 +11,9 @@ body{
     height: 100px;
     margin: 15px;
     cursor: pointer;
-    transition: all 0.1s ease-out;
+    transition: all 0.01s ease-out;
     user-select: none;
+    object-fit: contain;
 }
 
 .key.locked{
@@ -38,25 +39,6 @@ body{
     margin: 20px 0;
 }
 
-.key {
-    width: 100px;
-    height: 100px;
-    margin: 15px;
-    cursor: pointer;
-    transition: transform 0.1s;
-    user-select: none;
-    object-fit: contain;
-}
-
-.key.locked {
-    cursor: not-allowed;
-    opacity: 0.7;
-}
-
-.key:active {
-    transform: scale(0.95);
-}
-
 .upgrade-btn {
     padding: 10px 15px;
     margin: 10px;
@@ -78,14 +60,63 @@ body{
 }
 
 
+.upgrade-button {
+  display: flex;
+  align-items: center;
+  background-color: #d9d9d9;
+  border-radius: 20px;
+  padding: 16px 24px;
+  font-family: sans-serif;
+  width: 100%;
+  max-width: 700px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  text-align: left;
+}
 
+.upgrade-button:hover {
+  background-color: #cfcfcf;
+}
 
-/*
-.instrument-sans-<uniquifier> {
-  font-family: "Instrument Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 500;
-  font-style: normal;
-  font-variation-settings:
-    "wdth" 100;
-}*/
+.left {
+  font-size: 28px;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+.center {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid black;
+  margin: 8px 0;
+}
+
+.details {
+  font-size: 13px;
+  color: #222;
+  line-height: 1.4;
+}
+
+.right {
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 20px;
+}
