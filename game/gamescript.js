@@ -185,7 +185,7 @@ class EKey extends Key {
 
 class Game {
     constructor() {
-        this.points = 200;
+        this.points = 0;
         this.keys = {
             'q': new QKey(),
             'w': new WKey(),
@@ -256,7 +256,7 @@ class Game {
                 this.points -= key.upgradeCost;
                 if (key.locked) {
                     key.unlock();
-                    document.getElementById('upgrade-W').classList.remove('locked');
+                    //document.getElementById('upgrade-W').classList.remove('locked');
                 } else {
                     key.upgrade();
                 }
@@ -270,7 +270,7 @@ class Game {
                 this.points -= key.upgradeCost;
                 if (key.locked) {
                     key.unlock();
-                    document.getElementById('upgrade-E').classList.remove('locked');
+                    //document.getElementById('upgrade-E').classList.remove('locked');
                 } else {
                     key.upgrade();
                 }
@@ -311,6 +311,22 @@ class Game {
         this.updateKeyInfo('q');
         this.updateKeyInfo('w');
         this.updateKeyInfo('e');
+
+        this.updateUpgradeButtonStates();
+    }
+
+    updateUpgradeButtonStates() {
+        // Check each upgrade button
+        Object.entries(this.keys).forEach(([keyName, key]) => {
+            const button = document.getElementById(`upgrade-${keyName.toUpperCase()}`);
+            if (!button) return;
+
+            if (this.points >= key.upgradeCost) {
+                button.classList.remove('locked');
+            } else {
+                button.classList.add('locked');
+            }
+        });
     }
 
     updateKeyInfo(keyName) {
