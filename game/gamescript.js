@@ -11,8 +11,7 @@ class Key {
     }
 
     press() {
-        if (this.locked || this.isPressed) return 0;
-        this.isPressed = true;
+        if (!this.startPress()) return 0;
         return this.value;
     }
 
@@ -29,6 +28,16 @@ class Key {
             this.upgradeCost = Math.floor(this.upgradeCost * 1.5);
             this.level++;
         }
+    }
+
+    startPress() {
+        if (this.locked || this.isPressed) return false;
+        this.isPressed = true;
+        return true;
+    }
+
+    endPress() {
+        this.isPressed = false;
     }
 
     unlock(){
@@ -54,20 +63,14 @@ class QKey extends Key{
         super('Q',1,10,false);
         this.increment = 1;
     }
-
 }
 
-
-
-
-
-
-
-
-
-
-
-
+class WKey extends Key {
+    constructor(){
+        super('W',5,20,true);
+        this.increment = 1;
+    }
+}
 
 
 
@@ -76,8 +79,8 @@ class Game {
     constructor() {
         this.points = 0;
         this.keys = {
-            'q': new Key('Q', 1, 10, false),
-            'w': new Key('W', 5, 20, true)
+            'q': new QKey(),
+            'w': new WKey()
         };
         this.setupEventListeners();
         this.render();
@@ -121,31 +124,64 @@ class Game {
                     const wElement = document.getElementById('key-w');
                     wElement.src = 'gameassets/W.png';
                     wElement.classList.remove('locked');
+                    document.getElementById('upgrade-W').classList.remove('locked')
+                    this.render();
+                    // Force image update for W key
+                    this.updateKeyImage('w');
+                } else {
+                    key.upgrade();
+                    this.render();
+                    // Force image update for W key
+                    this.updateKeyImage('w');
                 }
-                key.upgrade();
-                this.render();
-                // Force image update for W key
-                this.updateKeyImage('w');
+
             }
         });
 
-        // Click events for keys
-        document.getElementById('key-q').addEventListener('click', () => {
-            if (!this.keys['q'].locked) {
-                this.points += this.keys['q'].press();
-                this.highlightKey('q');
+
+        this.setupMouseEvents('q');
+        this.setupMouseEvents('w');
+    }
+
+    setupMouseEvents(keyName) {
+        const element = document.getElementById(`key-${keyName}`);
+        if (!element) return;
+
+        // Mouse down (start press)
+        element.addEventListener('mousedown', () => {
+            const key = this.keys[keyName];
+            if (!key.locked && key.startPress()) {
+                this.points += key.value;
+                this.highlightKey(keyName);
                 this.render();
             }
         });
 
-        document.getElementById('key-w').addEventListener('click', () => {
-            if (!this.keys['w'].locked) {
-                this.points += this.keys['w'].press();
-                this.highlightKey('w');
-                this.render();
+        // Mouse up (end press)
+        element.addEventListener('mouseup', () => {
+            this.keys[keyName].endPress();
+        });
+
+        // Mouse leave (cancel press if mouse leaves while pressed)
+        element.addEventListener('mouseleave', () => {
+            this.keys[keyName].endPress();
+        });
+
+        // For continuous pressing while mouse is held down
+        element.addEventListener('mousemove', (e) => {
+            if (e.buttons === 1) { // Left mouse button is pressed
+                const key = this.keys[keyName];
+                if (!key.locked && key.startPress()) {
+                    this.points += key.value;
+                    this.highlightKey(keyName);
+                    this.render();
+                    key.endPress(); // Allow immediate repress
+                }
             }
         });
     }
+
+
 
     highlightKey(keyName) {
         const element = document.getElementById(`key-${keyName}`);
@@ -186,7 +222,7 @@ class Game {
         document.getElementById('sub-w').textContent = `Generates ${this.keys['w'].value}p per press. Can be held down.`;
         document.getElementById('cost-w').textContent = `Upgrade cost: ${this.keys['w'].upgradeCost}`;
         document.getElementById('change-w').textContent = `${this.keys['w'].value}p -> ${this.keys['w'].increment + this.keys['w'].value}p`;
-        document.getElementById('cost-w').textContent = `${this.keys['w'].level}x`;
+        document.getElementById('level-w').textContent = `${this.keys['w'].level}x`;
 
 
         // Update all key visuals

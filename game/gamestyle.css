@@ -79,6 +79,11 @@ body{
   background-color: #cfcfcf;
 }
 
+.upgrade-button.locked{
+    background-color: #4C4C4C;
+    opacity: 80%;
+}
+
 .left {
   font-size: 28px;
   font-weight: bold;
