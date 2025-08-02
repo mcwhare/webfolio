@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Key presser</title>
+        <link rel="stylesheet" href="gamestyle.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <h1>Key presser</h1>
+        <div class="game-container">
+
+            <div id="points-display">0</div>
+
+            <br>
+
+            <div id = "keys-container">
+                <img src="gameassets/Q.png" class="key" id="Key-Q" data-key="q">
+                <img src="gameassets/lock.png" class="key locked" id="Key-W" data-key="w">
+            </div>
+
+            <div class="upgrades-container">
+            <button class="upgrade-btn" id="upgrade-Q">Upgrade Q (Cost: 10)</button>
+            <button class="upgrade-btn" id="upgrade-W">Upgrade W (Cost: 20)</button>
+            <!-- Add more upgrade buttons here as needed -->
+            </div>
+
+
+        </div>
+    <script src="gamescript.js"></script>
+    </body>
+</html>

@@ -1,0 +1,91 @@
+body{
+    font-family: "Instrument Sans";
+    text-align: center;
+    padding: 20px;
+    color: white;
+    background-color: #1E1E1E
+}
+
+.key {
+    width: 100px;
+    height: 100px;
+    margin: 15px;
+    cursor: pointer;
+    transition: all 0.1s ease-out;
+    user-select: none;
+}
+
+.key.locked{
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.key:active{
+    transform: scale(0.95);
+}
+
+.game-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #252525;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+#points-display {
+    font-size: 2.5em;
+    margin: 20px 0;
+}
+
+.key {
+    width: 100px;
+    height: 100px;
+    margin: 15px;
+    cursor: pointer;
+    transition: transform 0.1s;
+    user-select: none;
+    object-fit: contain;
+}
+
+.key.locked {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.key:active {
+    transform: scale(0.95);
+}
+
+.upgrade-btn {
+    padding: 10px 15px;
+    margin: 10px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.upgrade-btn:hover {
+    background-color: #27ae60;
+}
+
+.upgrade-btn:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+
+
+
+/*
+.instrument-sans-<uniquifier> {
+  font-family: "Instrument Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}*/
