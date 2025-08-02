@@ -6,13 +6,26 @@ class Key {
         this.upgradeCost = upgradeCost;
         this.level = 1;
         this.locked = locked;
-        this.isPressed = false;
-        this.increment = 1;
+        this._isPressed = false;
+        this.increment = baseValue;
+        this.element = document.getElementById(`key-${name.toLowerCase()}`);
+    }
+
+    get isPressed() {
+        return this._isPressed;
+    }
+
+    set isPressed(value) {
+        if (this._isPressed !== value) {
+            this._isPressed = value;
+            this.updateVisualState();
+        }
     }
 
     press() {
-        if (!this.startPress()) return 0;
-        return this.value;
+        if (this.locked || this.isPressed) return 0;
+        this.isPressed = true;
+        return this.value; // Returns points only on initial press
     }
 
     release() {
@@ -28,28 +41,29 @@ class Key {
             this.upgradeCost = Math.floor(this.upgradeCost * 1.5);
             this.level++;
         }
+        this.updateVisualState();
     }
 
-    startPress() {
-        if (this.locked || this.isPressed) return false;
-        this.isPressed = true;
-        return true;
-    }
-
-    endPress() {
-        this.isPressed = false;
-    }
-
-    unlock(){
+    unlock() {
         this.locked = false;
+        this.updateVisualState();
         return true;
+    }
+
+    updateVisualState() {
+        if (!this.element) return;
+
+        this.element.classList.toggle('locked', this.locked);
+        this.element.classList.toggle('pressed', this.isPressed);
+
+        const imgSrc = this.isPressed ? this.getPressedImagePath() : this.getImagePath();
+        if (this.element.src !== imgSrc) {
+            this.element.src = imgSrc;
+        }
     }
 
     getImagePath() {
-        if (this.locked) {
-            return `gameassets/lock.png`;
-        }
-        return `gameassets/${this.name}.png`;
+        return this.locked ? 'gameassets/lock.png' : `gameassets/${this.name}.png`;
     }
 
     getPressedImagePath() {
@@ -57,23 +71,31 @@ class Key {
     }
 }
 
-
-class QKey extends Key{
-    constructor(){
-        super('Q',1,10,false);
+class QKey extends Key {
+    constructor() {
+        super('Q', 1, 10, false);
         this.increment = 1;
     }
 }
 
 class WKey extends Key {
-    constructor(){
-        super('W',5,20,true);
-        this.increment = 1;
+    constructor() {
+        super('W', 5, 20, true);
+        this.increment = 5;
+        this.holdInterval = 1000; // 1 second in milliseconds
+        this.lastHoldTime = 0;
+    }
+
+    getHoldPoints(currentTime) {
+        if (!this.isPressed) return 0;
+
+        if (currentTime - this.lastHoldTime >= this.holdInterval) {
+            this.lastHoldTime = currentTime;
+            return this.value;
+        }
+        return 0;
     }
 }
-
-
-
 
 class Game {
     constructor() {
@@ -82,25 +104,52 @@ class Game {
             'q': new QKey(),
             'w': new WKey()
         };
+        this.activePresses = new Set();
+        this.lastUpdateTime = performance.now();
+
         this.setupEventListeners();
         this.render();
+        this.gameLoop();
     }
 
     setupEventListeners() {
         // Keyboard events
         document.addEventListener('keydown', (e) => {
-            const key = e.key.toLowerCase();
-            if (this.keys[key] && !this.keys[key].isPressed) {
-                this.points += this.keys[key].press();
-                this.highlightKey(key);
+            if (e.repeat) return;
+            const keyName = e.key.toLowerCase();
+            if (this.keys[keyName] && !this.activePresses.has(keyName)) {
+                this.activePresses.add(keyName);
+                this.points += this.keys[keyName].press();
                 this.render();
             }
         });
 
         document.addEventListener('keyup', (e) => {
-            const key = e.key.toLowerCase();
-            if (this.keys[key]) {
-                this.keys[key].release();
+            const keyName = e.key.toLowerCase();
+            if (this.keys[keyName]) {
+                this.activePresses.delete(keyName);
+                this.keys[keyName].release();
+            }
+        });
+
+        // Mouse events
+        Object.values(this.keys).forEach(key => {
+            if (key.element) {
+                key.element.addEventListener('mousedown', () => {
+                    if (!key.locked && !this.activePresses.has(key.name.toLowerCase())) {
+                        this.activePresses.add(key.name.toLowerCase());
+                        this.points += key.press();
+                        this.render();
+                    }
+                });
+
+                const endPress = () => {
+                    this.activePresses.delete(key.name.toLowerCase());
+                    key.release();
+                };
+
+                key.element.addEventListener('mouseup', endPress);
+                key.element.addEventListener('mouseleave', endPress);
             }
         });
 
@@ -118,116 +167,56 @@ class Game {
             const key = this.keys['w'];
             if (this.points >= key.upgradeCost) {
                 this.points -= key.upgradeCost;
-
-                if(key.locked){
+                if (key.locked) {
                     key.unlock();
-                    const wElement = document.getElementById('key-w');
-                    wElement.src = 'gameassets/W.png';
-                    wElement.classList.remove('locked');
-                    document.getElementById('upgrade-W').classList.remove('locked')
-                    this.render();
-                    // Force image update for W key
-                    this.updateKeyImage('w');
+                    document.getElementById('upgrade-W').classList.remove('locked');
                 } else {
                     key.upgrade();
-                    this.render();
-                    // Force image update for W key
-                    this.updateKeyImage('w');
                 }
-
-            }
-        });
-
-
-        this.setupMouseEvents('q');
-        this.setupMouseEvents('w');
-    }
-
-    setupMouseEvents(keyName) {
-        const element = document.getElementById(`key-${keyName}`);
-        if (!element) return;
-
-        // Mouse down (start press)
-        element.addEventListener('mousedown', () => {
-            const key = this.keys[keyName];
-            if (!key.locked && key.startPress()) {
-                this.points += key.value;
-                this.highlightKey(keyName);
                 this.render();
             }
         });
+    }
 
-        // Mouse up (end press)
-        element.addEventListener('mouseup', () => {
-            this.keys[keyName].endPress();
-        });
+    gameLoop() {
+        const now = performance.now();
+        const deltaTime = Math.min(now - this.lastUpdateTime, 100);
+        this.lastUpdateTime = now;
 
-        // Mouse leave (cancel press if mouse leaves while pressed)
-        element.addEventListener('mouseleave', () => {
-            this.keys[keyName].endPress();
-        });
-
-        // For continuous pressing while mouse is held down
-        element.addEventListener('mousemove', (e) => {
-            if (e.buttons === 1) { // Left mouse button is pressed
-                const key = this.keys[keyName];
-                if (!key.locked && key.startPress()) {
-                    this.points += key.value;
-                    this.highlightKey(keyName);
+        // Only W key gets continuous points
+        if (this.activePresses.has('w')) {
+            const wKey = this.keys['w'];
+            if (!wKey.locked) {
+                const pointsToAdd = wKey.getHoldPoints(now);
+                if (pointsToAdd > 0) {
+                    this.points += pointsToAdd;
                     this.render();
-                    key.endPress(); // Allow immediate repress
                 }
             }
-        });
-    }
-
-
-
-    highlightKey(keyName) {
-        const element = document.getElementById(`key-${keyName}`);
-        if (!element) {
-            console.error(`Element Key-${keyName} not found`);
-            return;
         }
 
-        // Show pressed image
-        const pressedImg = this.keys[keyName].getPressedImagePath();
-        console.log(`Showing pressed image: ${pressedImg}`);
-        element.src = pressedImg + '?t=' + Date.now(); // Force reload
-
-        // Revert after 200ms
-        setTimeout(() => {
-            const normalImg = this.keys[keyName].getImagePath();
-            console.log(`Reverting to: ${normalImg}`);
-            element.src = normalImg + '?t=' + Date.now();
-        }, 100);
-    }
-
-    updateKeyImage(keyName) {
-        const element = document.getElementById(`key-${keyName.toUpperCase()}`);
-        if (!element) return;
-
-        const key = this.keys[keyName];
-        element.src = key.getImagePath();
-        element.className = key.locked ? 'key locked' : 'key';
+        requestAnimationFrame(() => this.gameLoop());
     }
 
     render() {
-        document.getElementById('points-display').textContent = this.points;
-        document.getElementById('sub-q').textContent = `Generates ${this.keys['q'].value}p per press`;
-        document.getElementById('cost-q').textContent = `Upgrade cost: ${this.keys['q'].upgradeCost}`;
-        document.getElementById('change-q').textContent = `${this.keys['q'].value}p -> ${this.keys['q'].increment + this.keys['q'].value}p`;
-        document.getElementById('level-q').textContent = `${this.keys['q'].level}x`;
+        // Update points display
+        document.getElementById('points-display').textContent = Math.floor(this.points);
 
-        document.getElementById('sub-w').textContent = `Generates ${this.keys['w'].value}p per press. Can be held down.`;
-        document.getElementById('cost-w').textContent = `Upgrade cost: ${this.keys['w'].upgradeCost}`;
-        document.getElementById('change-w').textContent = `${this.keys['w'].value}p -> ${this.keys['w'].increment + this.keys['w'].value}p`;
-        document.getElementById('level-w').textContent = `${this.keys['w'].level}x`;
+        // Update key info displays
+        this.updateKeyInfo('q');
+        this.updateKeyInfo('w');
+    }
 
-
-        // Update all key visuals
-        this.updateKeyImage('q');
-        this.updateKeyImage('w');
+    updateKeyInfo(keyName) {
+        const key = this.keys[keyName];
+        document.getElementById(`sub-${keyName}`).textContent =
+            `Generates ${key.value}p per press${keyName === 'w' ? '. Can be held down.' : ''}`;
+        document.getElementById(`cost-${keyName}`).textContent =
+            `Upgrade cost: ${key.upgradeCost}`;
+        document.getElementById(`change-${keyName}`).textContent =
+            `${key.value}p → ${key.increment + key.value}p`;
+        document.getElementById(`level-${keyName}`).textContent =
+            `${key.level}x`;
     }
 }
 
