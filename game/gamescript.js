@@ -69,6 +69,10 @@ class Key {
     getPressedImagePath() {
         return `gameassets/${this.name}-p.png`;
     }
+
+    getDesc() {
+        return `Generates ${this.value}p per press`;
+    }
 }
 
 class QKey extends Key {
@@ -95,6 +99,10 @@ class WKey extends Key {
         }
         return 0;
     }
+
+    getDesc() {
+        return `Generates ${this.value}p per press. Can be held down.`;
+    }
 }
 
 class EKey extends Key {
@@ -116,10 +124,11 @@ class EKey extends Key {
         ).length;
 
         const totalCooldown = Math.max(
-            1000, // Minimum 1 second
-            (this.baseCooldownPerKey * unlockedKeys) - this.cooldownReduction
+            200, // Minimum 1 second
+            (this.baseCooldownPerKey - this.cooldownReduction) * unlockedKeys
         );
 
+        this.perKeyCooldown = totalCooldown/unlockedKeys;
         this.startCooldown(totalCooldown);
         this.isPressed = true;
 
@@ -181,7 +190,51 @@ class EKey extends Key {
             this.element.style.removeProperty('--cooldown-duration');
         }
     }
+
+    getDesc() {
+        return `Has a ${this.perKeyCooldown}s cooldown per key.`;
+    }
 }
+
+class AKey extends Key {
+    constructor() {
+        super('A', 200, 1000, true);
+        this.increment = 20;
+    }
+
+    press() {
+        if (this.locked || this.isPressed) return 0;
+        this.isPressed = true;
+
+        let a = [0,1];
+        let i = Math.floor(Math.random() * a.length);
+        let r = a[i];
+        if (r == 0){
+            return this.value;
+        } else {
+            return -this.value;
+        }
+    }
+
+    getDesc() {
+        return `Gamble. Either +${this.value}p or -${this.value}p each press.`;
+    }
+
+    upgrade() {
+        if (this.locked) {
+            this.locked = false;
+        } else {
+            this.increment = Math.floor(this.increment * 1.2);
+            this.value = Math.floor(this.increment + this.value);
+            this.upgradeCost = Math.floor(this.upgradeCost * 1.5);
+            this.level++;
+        }
+        this.updateVisualState();
+    }
+}
+
+
+
 
 class Game {
     constructor() {
@@ -189,7 +242,8 @@ class Game {
         this.keys = {
             'q': new QKey(),
             'w': new WKey(),
-            'e': new EKey(this)
+            'e': new EKey(this),
+            'a': new AKey()
         };
         this.activePresses = new Set();
         this.lastUpdateTime = performance.now();
@@ -277,6 +331,20 @@ class Game {
                 this.render();
             }
         });
+
+        document.getElementById('upgrade-A').addEventListener('click', () => {
+            const key = this.keys['a'];
+            if (this.points >= key.upgradeCost) {
+                this.points -= key.upgradeCost;
+                if (key.locked) {
+                    key.unlock();
+                    //document.getElementById('upgrade-E').classList.remove('locked');
+                } else {
+                    key.upgrade();
+                }
+                this.render();
+            }
+        });
     }
 
     gameLoop() {
@@ -300,6 +368,10 @@ class Game {
             }
         }
 
+        if(this.points <= 0){
+            this.points = 0;
+        }
+
         requestAnimationFrame(() => this.gameLoop());
     }
 
@@ -311,6 +383,7 @@ class Game {
         this.updateKeyInfo('q');
         this.updateKeyInfo('w');
         this.updateKeyInfo('e');
+        this.updateKeyInfo('a');
 
         this.updateUpgradeButtonStates();
     }
@@ -333,15 +406,18 @@ class Game {
         const key = this.keys[keyName];
 
         // Existing Q and W key displays
-        if (keyName === 'q' || keyName === 'w') {
+        if (keyName === 'q' || keyName === 'w' || keyName === 'a') {
             document.getElementById(`sub-${keyName}`).textContent =
-                `Generates ${key.value}p per press${keyName === 'w' ? '. Can be held down.' : ''}`;
+                `${key.getDesc()}`;
             document.getElementById(`cost-${keyName}`).textContent =
                 `Upgrade cost: ${key.upgradeCost}`;
             document.getElementById(`change-${keyName}`).textContent =
                 `${key.value}p → ${key.increment + key.value}p`;
             document.getElementById(`level-${keyName}`).textContent =
                 `${key.level}x`;
+
+
+
         }
 
         // Enhanced E key display

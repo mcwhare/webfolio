@@ -26,6 +26,7 @@
                 <img src="gameassets/Q.png" class="key" id="key-q" data-key="q">
                 <img src="gameassets/lock.png" class="key locked" id="key-w" data-key="w">
                 <img src="gameassets/lock.png" class="key locked" id="key-e" data-key="e">
+                <img src="gameassets/lock.png" class="key locked" id="key-a" data-key="a">
             </div>
 
             <!--button upgrades-->
@@ -50,7 +51,6 @@
                     <div class="center">
                         <div class="title">Holding W</div>
                         <div class="subtitle" id="sub-w">Generates 5p per press.</div>
-                        <div class="subtitle">Can be held down</div>
                         <hr>
                         <div class="details">
                             <div id="cost-w">Unlock cost: 20</div>
@@ -66,6 +66,7 @@
                     <div class="center">
                         <div class="title">These fingers are E for everyone</div>
                         <div class="subtitle">Presses all keys at once.</div>
+                        <div class="subtitle" id="sub-e"></div>
                         <div class="subtitle" id="cooldown-e">2s cooldown per unlocked key.</div>
                         <hr>
                         <div class="details">
@@ -74,6 +75,21 @@
                         </div>
                     </div>
                     <div class="right" id="level-e">x1</div>
+                </button>
+                <br>
+
+                <button class="upgrade-button" id="upgrade-A" >
+                    <div class="left">A</div>
+                    <div class="center">
+                        <div class="title">Addicted to Gambling</div>
+                        <div class="subtitle" id="sub-a">Gamble. Either +200p or -200p each press.</div>
+                        <hr>
+                        <div class="details">
+                            <div id="cost-a">Unlock cost: 1000</div>
+                            <div id="change-a">200p -> 224p</div>
+                        </div>
+                    </div>
+                    <div class="right" id="level-a">x1</div>
                 </button>
 
 
