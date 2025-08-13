@@ -22,6 +22,10 @@ class Key {
         }
     }
 
+    get isLocked(){
+        return this.locked;
+    }
+
     press() {
         if (this.locked || this.isPressed) return 0;
         this.isPressed = true;
@@ -248,9 +252,38 @@ class Game {
         this.activePresses = new Set();
         this.lastUpdateTime = performance.now();
 
+        this.sounds = {
+            'q': this.createAudio('gameassets/keypress.wav'),
+            'w': this.createAudio('gameassets/keypress.wav'),
+            'e': this.createAudio('gameassets/keypress.wav'),
+            'a': this.createAudio('gameassets/keypress.wav')
+        };
+
         this.setupEventListeners();
         this.render();
         this.gameLoop();
+    }
+
+    createAudio(src) {
+        const audio = new Audio(src);
+        audio.preload = 'auto';
+        // Prime the audio by playing/pausing immediately
+        audio.volume = 0;
+        audio.play().then(() => {
+            audio.pause();
+            audio.currentTime = 0;
+            audio.volume = 0.5;
+        }).catch(e => {});
+        return audio;
+    }
+
+    playKeySound(keyName) {
+        const sound = this.sounds[keyName.toLowerCase()];
+        if (sound) {
+            sound.currentTime = 0; // Rewind to start
+            sound.volume = 0.5;
+            sound.play().catch(e => console.log("Audio play failed:", e));
+        }
     }
 
     setupEventListeners() {
@@ -261,6 +294,9 @@ class Game {
             if (this.keys[keyName] && !this.activePresses.has(keyName)) {
                 this.activePresses.add(keyName);
                 this.points += this.keys[keyName].press();
+                if(!this.keys[keyName].isLocked){
+                    this.playKeySound(keyName);
+                }
                 this.render();
             }
         });
@@ -280,6 +316,9 @@ class Game {
                     if (!key.locked && !this.activePresses.has(key.name.toLowerCase())) {
                         this.activePresses.add(key.name.toLowerCase());
                         this.points += key.press();
+                        if(!this.keys[keyName].isLocked){
+                            this.playKeySound(key.name.toLowerCase());
+                        }
                         this.render();
                     }
                 });
