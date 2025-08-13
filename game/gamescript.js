@@ -170,7 +170,7 @@ class EKey extends Key {
             this.locked = false;
         } else {
             // Reduce cooldown by 200ms per upgrade
-            this.cooldownReduction += 200;
+            this.cooldownReduction += 100;
             this.upgradeCost = Math.floor(this.upgradeCost * 1.5);
             this.level++;
         }
@@ -424,8 +424,8 @@ class Game {
         if (keyName === 'e') {
             const unlockedKeys = Object.values(this.keys).filter(k => !k.locked).length;
             const currentPerKey = (2000 - key.cooldownReduction) / 1000;
-            const nextPerKey = Math.max(0.1, (currentPerKey - 0.2)).toFixed(1);
-            const currentTotal = (2000 * unlockedKeys - key.cooldownReduction) / 1000;
+            const nextPerKey = Math.max(0.1, (currentPerKey - 0.1)).toFixed(1);
+            const currentTotal = (unlockedKeys * (2000 - key.cooldownReduction)) / 1000;
 
             document.getElementById(`cost-${keyName}`).textContent =
                 key.locked ? `Unlock cost: ${key.upgradeCost}` : `Upgrade cost: ${key.upgradeCost}`;
