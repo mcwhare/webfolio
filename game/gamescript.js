@@ -237,7 +237,35 @@ class AKey extends Key {
     }
 }
 
+class SKey extends Key {
+    constructor() {
+        super('S', 100, 7500, true);
+        this.increment = 10;
+        this.lastPressedTime = 0;
+        this.autoInterval = 2000;
+    }
 
+    press() {
+        if (this.locked) return 0;
+        this.isPressed = true;
+
+        return this.value;
+    }
+
+    runAutoKey(currentTime) {
+        if (this.locked) return 0;
+
+        if (currentTime - this.lastPressedTime >= this.autoInterval) {
+            this.lastPressedTime = currentTime;
+            return this.value
+        }
+        return 0;
+    }
+
+    getDesc() {
+        return `Key pressing slave. Presses itself for ${this.value}p every 2s.`;
+    }
+}
 
 
 class Game {
@@ -247,7 +275,8 @@ class Game {
             'q': new QKey(),
             'w': new WKey(),
             'e': new EKey(this),
-            'a': new AKey()
+            'a': new AKey(),
+            's': new SKey()
         };
         this.activePresses = new Set();
         this.lastUpdateTime = performance.now();
@@ -256,7 +285,8 @@ class Game {
             'q': this.createAudio('gameassets/keypress.wav'),
             'w': this.createAudio('gameassets/keypress.wav'),
             'e': this.createAudio('gameassets/keypress.wav'),
-            'a': this.createAudio('gameassets/keypress.wav')
+            'a': this.createAudio('gameassets/keypress.wav'),
+            's': this.createAudio('gameassets/keypress.wav')
         };
 
         this.setupEventListeners();
@@ -384,6 +414,20 @@ class Game {
                 this.render();
             }
         });
+
+        document.getElementById('upgrade-S').addEventListener('click', () => {
+            const key = this.keys['s'];
+            if (this.points >= key.upgradeCost) {
+                this.points -= key.upgradeCost;
+                if (key.locked) {
+                    key.unlock();
+                    //document.getElementById('upgrade-E').classList.remove('locked');
+                } else {
+                    key.upgrade();
+                }
+                this.render();
+            }
+        });
     }
 
     gameLoop() {
@@ -395,7 +439,7 @@ class Game {
         this.keys['e'].update(deltaTime);
 
         this.render()
-        // Existing W key hold logic
+        // W key hold logic
         if (this.activePresses.has('w')) {
             const wKey = this.keys['w'];
             if (!wKey.locked) {
@@ -404,6 +448,21 @@ class Game {
                     this.points += pointsToAdd;
                     this.render();
                 }
+            }
+        }
+
+        // S key auto logic
+        const sKey = this.keys['s'];
+        if (!sKey.locked){
+            const pointsToAdd = sKey.runAutoKey(now);
+            if (pointsToAdd > 0){
+                this.points += pointsToAdd;
+                this.playKeySound('s');
+                sKey.isPressed = true;
+                setTimeout(() => {
+                    sKey.isPressed = false;
+                }, 100)
+                this.render()
             }
         }
 
@@ -423,6 +482,7 @@ class Game {
         this.updateKeyInfo('w');
         this.updateKeyInfo('e');
         this.updateKeyInfo('a');
+        this.updateKeyInfo('s');
 
         this.updateUpgradeButtonStates();
     }
@@ -445,7 +505,7 @@ class Game {
         const key = this.keys[keyName];
 
         // Existing Q and W key displays
-        if (keyName === 'q' || keyName === 'w' || keyName === 'a') {
+        if (keyName === 'q' || keyName === 'w' || keyName === 'a' || keyName == 's') {
             document.getElementById(`sub-${keyName}`).textContent =
                 `${key.getDesc()}`;
             document.getElementById(`cost-${keyName}`).textContent =
