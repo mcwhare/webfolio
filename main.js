@@ -153,3 +153,147 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 })();
+
+
+/* ── PROJECT MODAL FOR LONG IMAGES ──────────────── */
+(function initProjectModals() {
+  // Check if modal already exists
+  if (document.getElementById('project-modal')) return;
+
+  // Create modal element
+  const modal = document.createElement('div');
+  modal.id = 'project-modal';
+  modal.className = 'project-modal';
+  modal.innerHTML = `
+    <div class="modal-overlay"></div>
+    <div class="modal-container">
+      <button class="modal-close" aria-label="Close modal">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <div class="modal-content">
+        <img id="modal-image" src="" alt="Project preview">
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  const modalOverlay = modal.querySelector('.modal-overlay');
+  const modalClose = modal.querySelector('.modal-close');
+  const modalImage = document.getElementById('modal-image');
+  const modalContent = modal.querySelector('.modal-content');
+
+  // Function to open modal
+  function openModal(imageSrc) {
+    if (!imageSrc) {
+      console.error('No image source provided');
+      return;
+    }
+    console.log('Opening modal with image:', imageSrc);
+    modalImage.src = imageSrc;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Function to close modal
+  function closeModal() {
+    console.log('Closing modal');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+    // Reset scroll position
+    if (modalContent) modalContent.scrollTop = 0;
+    // Clear image src after animation
+    setTimeout(() => {
+      if (!modal.classList.contains('active')) {
+        modalImage.src = '';
+      }
+    }, 300);
+  }
+
+  // Close handlers
+  modalClose.addEventListener('click', (e) => {
+    e.stopPropagation();
+    closeModal();
+  });
+
+  modalOverlay.addEventListener('click', (e) => {
+    e.stopPropagation();
+    closeModal();
+  });
+
+  // Close on ESC key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      closeModal();
+    }
+  });
+
+  // Find all project cards and attach click handlers
+  function attachModalHandlers() {
+    const projectCards = document.querySelectorAll('.project-card');
+    console.log('Found project cards:', projectCards.length);
+
+    projectCards.forEach((card) => {
+      // Remove existing listener to avoid duplicates
+      if (card._modalHandler) {
+        card.removeEventListener('click', card._modalHandler);
+      }
+
+      // Create handler
+      const handler = function(e) {
+        // Don't open modal if clicking on interactive elements inside the card
+        if (e.target.closest('a, button, .see-more-btn')) {
+          console.log('Clicked on interactive element, skipping modal');
+          return;
+        }
+
+        console.log('Project card clicked');
+
+        // Get image from data-modal-image attribute
+        let imageSrc = card.dataset.modalImage;
+
+        // If not set, try to get from the image inside the card
+        if (!imageSrc) {
+          const cardImg = card.querySelector('img');
+          if (cardImg && cardImg.src) {
+            // Replace preview with long version (e.g., preview.png -> long.png)
+            imageSrc = cardImg.src.replace('preview', 'long');
+            // Or use a default pattern
+            if (imageSrc === cardImg.src) {
+              imageSrc = null;
+            }
+          }
+        }
+
+        // If still no image, show a placeholder
+        if (!imageSrc) {
+          console.warn('No modal image found for card, using placeholder');
+          imageSrc = 'https://placehold.co/800x2000/1a1a1a/ffffff?text=Long+Image+Preview';
+        }
+
+        openModal(imageSrc);
+      };
+
+      card._modalHandler = handler;
+      card.addEventListener('click', handler);
+      card.style.cursor = 'pointer';
+    });
+  }
+
+  // Initial attachment
+  attachModalHandlers();
+
+  // Also watch for dynamically added cards (if any)
+  const observer = new MutationObserver(() => {
+    attachModalHandlers();
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+
+  console.log('Modal system initialized');
+})();
