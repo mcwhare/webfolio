@@ -585,3 +585,180 @@ body {
   transform: translateY(0) !important;
 }
 
+/* ── TRAVEL CARDS (POLAROID STYLE) ───────────────── */
+.travel-card {
+  background: #272727;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1),
+              box-shadow 0.4s ease;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  padding: 12px 12px 20px 12px;
+}
+
+.travel-card:hover {
+  transform: translateY(-8px) rotate(1deg);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+.travel-img-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/5;
+  overflow: hidden;
+  background: #f0f0f0;
+  margin-bottom: 12px;
+  border-radius: 14px;
+}
+
+.travel-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 14px;
+}
+
+.travel-bg-text {
+  display: none;
+}
+
+.travel-body {
+  padding: 4px 8px 0 8px;
+  text-align: left;
+}
+
+.travel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+
+/* Polaroid text styling */
+.travel-body .travel-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 1.2rem;
+  color: white;
+  letter-spacing: 0.02em;
+  margin-bottom: 6px;
+}
+
+.travel-body .travel-location {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: white;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.travel-body .travel-title {
+  font-family: 'Manrope', monospace;
+  font-size: 0.9rem;
+  color: white;
+  line-height: 1.4;
+  margin-top: 4px;
+}
+
+/* Optional: Add a subtle vignette effect on hover */
+.travel-img-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent 70%, rgba(0,0,0,0.1) 100%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.travel-card:hover .travel-img-wrapper::after {
+  opacity: 1;
+}
+
+/* Dark mode text adjustments - keep polaroid style */
+@media (prefers-color-scheme: dark) {
+  .travel-card {
+    background: #272727;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+/* Ensure no layout shift */
+.thought-item:last-child {
+  margin-bottom: 0;
+}
+/* ── SLOWER THOUGHTS TRANSITIONS ───────────────── */
+#see-more-thoughts {
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1;
+  transform: translateY(0);
+  display: inline-block;
+}
+
+#see-more-thoughts.hide {
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  display: none;
+}
+
+#close-thoughts {
+  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1) 0.15s,
+              transform 1s cubic-bezier(0.4, 0, 0.2, 1) 0.15s;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  display: none;
+}
+
+#close-thoughts.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  display: inline-block;
+}
+
+#all-thoughts {
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+              max-height 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  display: block !important;
+}
+
+#all-thoughts.show {
+  opacity: 1;
+  max-height: 2000px;
+}
+
+.thought-item {
+  transition: opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  opacity: 0;
+  transform: translateX(-20px);
+  margin-bottom: 1.5rem;
+}
+
+.thought-item.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Slower staggered delays */
+.thought-item.show:nth-child(1) { transition-delay: 0.1s; }
+.thought-item.show:nth-child(2) { transition-delay: 0.2s; }
+.thought-item.show:nth-child(3) { transition-delay: 0.3s; }
+.thought-item.show:nth-child(4) { transition-delay: 0.4s; }
+.thought-item.show:nth-child(5) { transition-delay: 0.5s; }
+.thought-item.show:nth-child(6) { transition-delay: 0.6s; }

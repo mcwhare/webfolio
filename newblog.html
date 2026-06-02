@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en" class="scroll-smoother">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>mcwh - Blog</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="newstyle.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Manrope:wght@300;400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap"
+            rel="stylesheet" />
+    </head>
+    <body class="bg-[#0a0a0a] text-white min-h-screen overflow-x-hidden">
+        <!-- Star canvas background -->
+        <canvas id="stars" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+        <!-- NAV -->
+        <nav class="fixed top-0 left-0 z-50 p-8 flex flex-col gap-1">
+            <a
+                href="index.html"
+                class="nav-link font-['Syne'] text-sm tracking-widest text-white/70 hover:text-white transition-colors duration-300"
+                >Home</a
+            >
+            <a
+                href="#thoughts"
+                class="nav-link font-['Syne'] text-sm tracking-widest text-white/70 hover:text-white transition-colors duration-300"
+                >Thoughts</a
+            >
+            <a
+                href="#travels"
+                class="nav-link font-['Syne'] text-sm tracking-widest text-white/70 hover:text-white transition-colors duration-300"
+                >Travels</a
+            >
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <main class="relative z-10 max-w-6xl mx-auto px-6 py-24">
+            <br><br><br><br>
+            <!-- Quote Section -->
+            <div class="text-center mb-16">
+                <p id="quote-text" class="font-['Manrope'] italic text-2xl text-white/80 mb-2">"Some random quote"</p>
+                <p id="quote-timer" class="font-['DM_Mono'] text-xs text-white/30 tracking-widest">
+                    refreshes in 23h 13m 4s
+                </p>
+            </div>
+            <br><br><br><br>
+
+            <!-- Thoughts Section -->
+            <section id="thoughts" class="mb-20 max-w-4xl mx-auto">
+                <h2 class="text-center section-subheading font-['Manrope'] font-300 text-4xl mb-8 tracking-wider">Thoughts</h2>
+
+                <!-- Latest Thought (Always Visible) -->
+                <div id="latest-thought" class="border-l-2 border-white/20 pl-6 mb-4">
+                    <p id="latest-date" class="font-['DM_Mono'] text-xs text-white/40 mb-2"></p>
+                    <p id="latest-content" class="font-['DM_Mono'] text-sm leading-relaxed text-white/70"></p>
+                </div>
+
+                <!-- See More Button -->
+                <button
+                    id="see-more-thoughts"
+                    class="see-more-btn font-['Syne'] text-sm tracking-widest uppercase mt-4">
+                    See More
+                </button>
+
+                <!-- Hidden Thoughts Container -->
+                <div id="all-thoughts" style="display: none" class="mt-6 border-l-2 border-white/20 pl-6">
+                    <div id="thoughts-list" class="space-y-6"></div>
+                    <button
+                        id="close-thoughts"
+                        class="see-more-btn font-['Syne'] text-sm tracking-widest uppercase mt-4">
+                        Close
+                    </button>
+                </div>
+            </section>
+
+            <!-- Travels Section -->
+            <section id="travels">
+                <h2 class="text-center section-subheading font-['Manrope'] font-300 text-4xl mb-8 tracking-wider">Travels</h2>
+                <div id="travels-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Travel cards will be populated here -->
+                </div>
+            </section>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="relative z-10 text-center py-12 font-['DM_Mono'] text-xs text-white/20 tracking-widest">
+            2026 mcwh
+        </footer>
+
+        <script src="blog.js"></script>
+    </body>
+</html>

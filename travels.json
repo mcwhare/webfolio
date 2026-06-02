@@ -1,0 +1,30 @@
+[
+  {
+    "date": "Jan 2023",
+    "location": "Japan",
+    "title": "Mount Fuji, Fujikawaguchiko",
+    "image": "blog-images/japan6.jpg",
+    "longImage": "blog-images/japan6.jpg"
+  },
+  {
+    "date": "Dec 2024",
+    "location": "New Zealand",
+    "title": "Glenorchy, Queenstown",
+    "image": "blog-images/nz4.jpg",
+    "longImage": "blog-images/nz4.jpg"
+  },
+  {
+    "date": "Dec 2024",
+    "location": "New Zealand",
+    "title": "Milford Sound",
+    "image": "blog-images/nz7v2.jpg",
+    "longImage": "blog-images/nz7v2.jpg"
+  },
+  {
+    "date": "July 2024",
+    "location": "Australia",
+    "title": "Phillip Island Melbourne Night Sky",
+    "image": "blog-images/nightsky1.jpg",
+    "longImage": "blog-images/nightsky1.jpg"
+  }
+]
