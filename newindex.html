@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -42,33 +42,61 @@
                     <h1 class="hero-name font-['Manrope'] font-800 text-5xl md:text-6xl tracking-[0.18em] text-white">
                         Marcus <br />Chan
                     </h1>
-                    <p class="font-['DM_Mono'] font-300 text-lg tracking-[0.12em] text-white/50 mt-2">
+                    <p class="hero-title font-['DM_Mono'] font-300 text-lg tracking-[0.12em] text-white/50 mt-2">
                         Software Engineer
                     </p>
+                    <div class="hero-social flex gap-5 mt-6 justify-center md:justify-start">
+                        <a
+                            href="https://github.com/mcwhare"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="social-link"
+                            aria-label="GitHub">
+                            <img src="assets/Github2.png" alt="GitHub" class="w-8 h-8" />
+                        </a>
+                        <a
+                            href="https://linkedin.com/in/mcwhare"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="social-link"
+                            aria-label="LinkedIn">
+                            <img src="assets/Linkedin2.png" alt="LinkedIn" class="w-8 h-8" />
+                        </a>
+                    </div>
                 </div>
-                <div
-                    class="avatar-ring w-36 h-36 rounded-full overflow-hidden bg-white/10 border border-white/20 flex items-center justify-center">
-                    <img
-                        src="assets/profile.png"
-                        alt="Marcus Chan"
-                        class="w-full h-full object-cover"
-                        onerror="this.style.display='none'" />
+                <div class="hero-avatar">
+                    <div
+                        class="avatar-ring w-40 h-40 rounded-full overflow-hidden bg-white/10 border border-white/20 flex items-center justify-center">
+                        <img
+                            src="assets/profile.png"
+                            alt="Marcus Chan"
+                            class="w-full h-full object-cover"
+                            onerror="this.style.display='none'" />
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- ABOUT -->
         <section id="about" class="relative z-10 py-24 px-6 max-w-4xl mx-auto">
-            <h2 class="section-heading font-['Manrope'] font-300 text-5xl text-center mb-14 tracking-wider">About</h2>
-            <div class="flex flex-wrap justify-center gap-4">
+            <h2 class="section-heading font-['Manrope'] font-300 text-5xl text-center mb-14 tracking-wider">
+                About Me
+            </h2>
+            <div class="flex flex-wrap justify-center items-center gap-4">
                 <div class="fade-tag tag-bubble">Software Engineering student<br />at Monash University</div>
                 <div class="fade-tag tag-bubble">Currently looking for any<br />employment or work<br />experience</div>
                 <div class="fade-tag tag-bubble">
                     Range of skills including UI/<br />UX, quality testing, and full<br />stack development
                 </div>
+                <div class="fade-tag tag-bubble">Self-taught graphic designer</div>
+                <div class="fade-tag tag-bubble">
+                    Currently working as CTO of <br />
+                    PivotPoint Education
+                </div>
             </div>
         </section>
 
+        <!-- SKILLS — desktop free-float layout -->
         <!-- SKILLS — desktop free-float layout -->
         <section class="desktop-skills relative z-10 py-16 px-6 max-w-6xl mx-auto">
             <!-- Languages + Frameworks side by side -->
@@ -87,17 +115,17 @@
                         >Languages</span
                     >
                     <span class="skill-tag" data-cx="5" data-cy="34">English</span>
-                    <span class="skill-tag" data-cx="19" data-cy="26">Python</span>
+                    <span class="skill-tag" data-cx="19" data-cy="29">Python</span>
                     <span class="skill-tag" data-cx="37" data-cy="28">Music</span>
                     <span class="skill-tag" data-cx="5" data-cy="56">Dart</span>
                     <span class="skill-tag" data-cx="25" data-cy="48">Java</span>
-                    <span class="skill-tag" data-cx="18" data-cy="68">React</span>
+                    <span class="skill-tag" data-cx="15" data-cy="52">JS</span>
                     <span class="skill-tag" data-cx="37" data-cy="62">C++</span>
                     <span
                         class="bubble-heading section-subheading font-['Manrope'] font-300 tracking-wide"
                         style="
                             position: relative;
-                            left: 30%;
+                            left: 40%;
                             top: 2%;
                             transform: translateX(-50%);
                             white-space: nowrap;
@@ -114,27 +142,55 @@
                 </div>
             </div>
 
-            <!-- Design full width -->
+            <!-- Design + Skills side by side (updated) -->
             <div class="skill-section mb-16">
-                <div class="bubble-field" style="height: 280px">
-                    <span
-                        class="bubble-heading section-subheading font-['Manrope'] font-300 tracking-wide"
-                        style="
-                            position: relative;
-                            left: 43%;
-                            top: 2%;
-                            transform: translateX(-50%);
-                            white-space: nowrap;
-                            font-size: clamp(1.6rem, 3vw, 2.4rem);
-                        "
-                        >Design</span
-                    >
-                    <span class="skill-tag" data-cx="9" data-cy="55">Fusion360</span>
-                    <span class="skill-tag" data-cx="26" data-cy="42">Figma</span>
-                    <span class="skill-tag" data-cx="18" data-cy="72">Solidworks</span>
-                    <span class="skill-tag" data-cx="43" data-cy="48">Canva</span>
-                    <span class="skill-tag" data-cx="43" data-cy="74">Paint.NET</span>
-                    <span class="skill-tag" data-cx="68" data-cy="64">Davinci Resolve</span>
+                <div class="flex gap-6">
+                    <!-- Design bubble field -->
+                    <div class="bubble-field flex-1" style="height: 280px">
+                        <span
+                            class="bubble-heading section-subheading font-['Manrope'] font-300 tracking-wide"
+                            style="
+                                position: relative;
+                                left: 43%;
+                                top: 2%;
+                                transform: translateX(-50%);
+                                white-space: nowrap;
+                                font-size: clamp(1.6rem, 3vw, 2.4rem);
+                            "
+                            >Design</span
+                        >
+                        <span class="skill-tag" data-cx="9" data-cy="55">Fusion360</span>
+                        <span class="skill-tag" data-cx="26" data-cy="42">Figma</span>
+                        <span class="skill-tag" data-cx="18" data-cy="72">Solidworks</span>
+                        <span class="skill-tag" data-cx="43" data-cy="48">Canva</span>
+                        <span class="skill-tag" data-cx="43" data-cy="74">Paint.NET</span>
+                        <span class="skill-tag" data-cx="68" data-cy="64">Davinci Resolve</span>
+                        <span class="skill-tag" data-cx="72" data-cy="44">MS Paint</span>
+                    </div>
+
+                    <!-- Skills bubble field (new) -->
+                    <div class="bubble-field flex-1" style="height: 280px">
+                        <span
+                            class="bubble-heading section-subheading font-['Manrope'] font-300 tracking-wide"
+                            style="
+                                position: relative;
+                                left: 43%;
+                                top: 2%;
+                                transform: translateX(-50%);
+                                white-space: nowrap;
+                                font-size: clamp(1.6rem, 3vw, 2.4rem);
+                            "
+                            >Skills</span
+                        >
+                        <span class="skill-tag" data-cx="19" data-cy="45">Agile SAFe</span>
+                        <span class="skill-tag" data-cx="100" data-cy="42">Graphic Design</span>
+                        <span class="skill-tag" data-cx="18" data-cy="72">CAD</span>
+                        <span class="skill-tag" data-cx="43" data-cy="48">UI/UX</span>
+                        <span class="skill-tag" data-cx="49" data-cy="79">Algorithms and Data Structures</span>
+                        <span class="skill-tag" data-cx="68" data-cy="54">Game Design</span>
+                        <span class="skill-tag" data-cx="92" data-cy="67">Video Editing</span>
+                        <span class="skill-tag" data-cx="55" data-cy="30">Excel and Spreadsheets</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -149,7 +205,7 @@
                     <span>Music</span>
                     <span>Dart</span>
                     <span>Java</span>
-                    <span>React</span>
+                    <span>JS</span>
                     <span>C++</span>
                 </div>
             </div>
@@ -160,7 +216,7 @@
                     <span>React</span>
                     <span>Jira</span>
                     <span>Git</span>
-                    <span>React native</span>
+                    <span>React Native</span>
                     <span>UE5</span>
                 </div>
             </div>
@@ -173,6 +229,20 @@
                     <span>Canva</span>
                     <span>Paint.NET</span>
                     <span>Davinci Resolve</span>
+                    <span>MS Paint</span>
+                </div>
+            </div>
+            <div class="mobile-skill-group">
+                <h3>Skills</h3>
+                <div class="tags">
+                    <span>Agile SAFe</span>
+                    <span>Graphic Design</span>
+                    <span>CAD</span>
+                    <span>UI/UX</span>
+                    <span>Algorithms and Data Structures</span>
+                    <span>Game Design</span>
+                    <span>Video Editing</span>
+                    <span>Excel and other Spreadsheets</span>
                 </div>
             </div>
         </div>
@@ -344,36 +414,49 @@
                 </p>
             </div>
             <div class="grid grid-cols-3 gap-5 mb-12">
-                <div class="blog-card">
-                    <div class="blog-img-wrapper">
-                        <img
-                            src="blog1-placeholder.jpg"
-                            alt="Blog post 1"
-                            onerror="this.parentElement.classList.add('img-missing')" />
-                        <div class="velox-bg-text small" aria-hidden="true">Velox</div>
+                <!-- Blog Card 1 - Clickable -->
+                <a href="game/game.html" class="blog-card-link" target="_blank">
+                    <div class="blog-card">
+                        <div class="blog-img-wrapper">
+                            <img
+                                src="assets/clicker.png"
+                                alt="Key Presser Game"
+                                onerror="this.parentElement.classList.add('img-missing')" />
+                            <div class="velox-bg-text small" aria-hidden="true">empty</div>
+                        </div>
+                        <p class="font-['DM_Mono'] text-xs text-center text-white/50 mt-3">
+                            Key presser<br />Random game I made one day
+                        </p>
                     </div>
-                    <p class="font-['DM_Mono'] text-xs text-center text-white/50 mt-3">Blog thing</p>
-                </div>
-                <div class="blog-card">
-                    <div class="blog-img-wrapper">
-                        <img
-                            src="blog2-placeholder.jpg"
-                            alt="Blog post 2"
-                            onerror="this.parentElement.classList.add('img-missing')" />
-                        <div class="velox-bg-text small" aria-hidden="true">Velox</div>
+                </a>
+
+                <!-- Blog Card 2 - Clickable -->
+                <a href="https://www.instagram.com/pivotpoint_education/" class="blog-card-link" target="_blank">
+                    <div class="blog-card">
+                        <div class="blog-img-wrapper">
+                            <img
+                                src="assets/PivotPoint.png"
+                                alt="PivotPoint"
+                                onerror="this.parentElement.classList.add('img-missing')" />
+                            <div class="velox-bg-text small" aria-hidden="true">empty</div>
+                        </div>
+                        <p class="font-['DM_Mono'] text-xs text-center text-white/50 mt-3">Check out PivotPoint!</p>
                     </div>
-                    <p class="font-['DM_Mono'] text-xs text-center text-white/50 mt-3">Blog thing</p>
-                </div>
-                <div class="blog-card">
-                    <div class="blog-img-wrapper">
-                        <img
-                            src="blog3-placeholder.jpg"
-                            alt="Blog post 3"
-                            onerror="this.parentElement.classList.add('img-missing')" />
-                        <div class="velox-bg-text small" aria-hidden="true">Velox</div>
+                </a>
+
+                <!-- Blog Card 3 - Clickable -->
+                <a href="misc.html" class="blog-card-link" target="_blank">
+                    <div class="blog-card">
+                        <div class="blog-img-wrapper">
+                            <img
+                                src="assets/misc-preview.png"
+                                alt="Misc projects"
+                                onerror="this.parentElement.classList.add('img-missing')" />
+                            <div class="velox-bg-text small" aria-hidden="true">empty</div>
+                        </div>
+                        <p class="font-['DM_Mono'] text-xs text-center text-white/50 mt-3">Some misc product designs</p>
                     </div>
-                    <p class="font-['DM_Mono'] text-xs text-center text-white/50 mt-3">Blog thing</p>
-                </div>
+                </a>
             </div>
             <div class="flex justify-center">
                 <button class="see-more-btn font-['Syne'] text-sm tracking-widest uppercase">See More</button>

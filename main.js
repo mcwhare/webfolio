@@ -92,6 +92,52 @@
   fields.forEach(f => observer.observe(f));
 })();
 
+/* ── PROJECT CARD FADE-IN ON SCROLL ──────────────── */
+(function initProjectFadeIn() {
+  const projectCards = document.querySelectorAll('.project-card');
+  if (!projectCards.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target); // Only animate once
+      }
+    });
+  }, {
+    threshold: 0.25, // Trigger when 15% of card is visible
+    rootMargin: '0px 0px -20px 0px' // Slight offset
+  });
+
+  projectCards.forEach(card => {
+    observer.observe(card);
+  });
+})();
+
+/* ── BLOG CARD FADE-IN ON SCROLL ──────────────── */
+(function initBlogFadeIn() {
+  const blogCards = document.querySelectorAll('.blog-card');
+  if (!blogCards.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.25,
+    rootMargin: '0px 0px -20px 0px'
+  });
+
+  blogCards.forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(card);
+  });
+})();
 
 /* ── FADE-IN FOR ABOUT BUBBLES ──────────── */
 (function initFadeTags() {
@@ -138,6 +184,67 @@
   }
   tick();
 })();
+
+/* ── RANDOM QUOTE (DAILY) ─────────────────────── */
+(function initDailyQuote() {
+  const quoteEl = document.getElementById('quote-text');
+  if (!quoteEl) return;
+
+  const STORAGE_KEY = 'daily_quote';
+  const LAST_FETCH_KEY = 'quote_last_fetch';
+
+  async function fetchQuotes() {
+    try {
+      const response = await fetch('quotes.json');
+      const data = await response.json();
+      return data.quotes;
+    } catch (error) {
+      console.error('Failed to load quotes:', error);
+      return null;
+    }
+  }
+
+  function getDailyQuote(quotes) {
+    // Use date string to ensure same quote all day
+    const today = new Date().toDateString();
+    let hash = 0;
+    for (let i = 0; i < today.length; i++) {
+      hash = ((hash << 5) - hash) + today.charCodeAt(i);
+      hash |= 0;
+    }
+    const index = Math.abs(hash) % quotes.length;
+    return quotes[index];
+  }
+
+  async function updateQuote() {
+    let quoteData = null;
+
+    // Check if we already have today's quote in sessionStorage
+    const storedQuote = sessionStorage.getItem(STORAGE_KEY);
+    const lastFetch = sessionStorage.getItem(LAST_FETCH_KEY);
+    const today = new Date().toDateString();
+
+    if (storedQuote && lastFetch === today) {
+      quoteData = JSON.parse(storedQuote);
+    } else {
+      const quotes = await fetchQuotes();
+      if (quotes) {
+        quoteData = getDailyQuote(quotes);
+        sessionStorage.setItem(STORAGE_KEY, JSON.stringify(quoteData));
+        sessionStorage.setItem(LAST_FETCH_KEY, today);
+      }
+    }
+
+    if (quoteData) {
+      quoteEl.textContent = `"${quoteData.text}" — ${quoteData.author}`;
+    } else {
+      quoteEl.textContent = '"Yeah, idk what to put here."  — Me';
+    }
+  }
+
+  updateQuote();
+})();
+
 
 
 /* ── ACTIVE NAV HIGHLIGHT ───────────────── */
