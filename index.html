@@ -1,216 +1,473 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" class="scroll-smooth">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>mcwh</title>
-        <link rel="stylesheet" href="css/style.css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="newstyle.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Manrope:wght@300;400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap"
+            rel="stylesheet" />
     </head>
+    <body class="bg-[#0a0a0a] text-white min-h-screen overflow-x-hidden">
+        <!-- Star canvas background -->
+        <canvas id="stars" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.card');
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry, index) => {
-                    if (entry.isIntersecting) {
-                        setTimeout(() => {
-                            entry.target.classList.add('visible');
-                        }, index * 150);
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, {
-                threshold: 0.5,
-                rootMargin: '0px 0px -100px 0px'
-            });
-
-            cards.forEach(card => {
-                observer.observe(card);
-            });
-        });
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const feedback = document.createElement('div');
-            feedback.className = 'copy-feedback';
-            document.body.appendChild(feedback);
-
-            const emailBtn = document.querySelector('a[href^="mailto"]');
-            if (emailBtn) {
-                emailBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    copyWithFeedback('marcus.chanwh05@gmail.com', 'Email copied!');
-                });
-            }
-
-            const discordBtn = document.querySelector('a[href="https://discord.com"]');
-            if (discordBtn) {
-                discordBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    copyWithFeedback('suavere', 'Discord username copied!');
-                });
-            }
-
-            function copyWithFeedback(text, message) {
-                navigator.clipboard.writeText(text)
-                    .then(() => {
-                        feedback.textContent = message;
-                        feedback.classList.add('show');
-                        setTimeout(() => feedback.classList.remove('show'), 2000);
-                    })
-                    .catch(() => {
-                        window.location.href = text.includes('@')
-                            ? `mailto:${text}`
-                            : 'https://discord.com';
-                    });
-            }
-        });
-    </script>
-
-    <script>
-        function openOverlay(id) {
-            const overlay = document.getElementById(id);
-            overlay.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            overlay.focus();
-        }
-
-        function closeOverlay(id) {
-            const overlay = document.getElementById(id);
-            overlay.style.display = 'none';
-            document.body.style.overflow = 'auto';
-            const img = overlay.querySelector('.overlay-image');
-            img.classList.remove('zoom');
-        }
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                ['notifyOverlay', 'veloxOverlay'].forEach(function(id) {
-                    const overlay = document.getElementById(id);
-                    if (overlay && overlay.style.display === 'block') {
-                        closeOverlay(id);
-                    }
-                });
-            }
-        });
-    </script>
-
-    <body>
-
-        <!-- Navbar -->
-        <nav class="navbar">
-            <a href="#about">About</a>
-            <a href="#socials">Contact</a>
-            <a href="blog.html">Blog</a>
+        <!-- NAV -->
+        <nav class="fixed top-0 left-0 z-50 p-8 flex flex-col gap-1">
+            <a
+                href="#about"
+                class="nav-link font-['Syne'] text-sm tracking-widest text-white/70 hover:text-white transition-colors duration-300"
+                >About</a
+            >
+            <a
+                href="#projects"
+                class="nav-link font-['Syne'] text-sm tracking-widest text-white/70 hover:text-white transition-colors duration-300"
+                >Projects</a
+            >
+            <a
+                href="#blog"
+                class="nav-link font-['Syne'] text-sm tracking-widest text-white/70 hover:text-white transition-colors duration-300"
+                >Blog</a
+            >
         </nav>
 
-        <!-- Hero Section -->
-        <header class="hero">
-            <div class="hero-text">
-                <h1>Marcus<br>Chan</h1>
-                <h2>Software Engineer</h2>
+        <!-- HERO -->
+        <section class="relative z-10 h-[80vh] flex items-center justify-center">
+            <div class="text-center md:text-left flex flex-col-reverse md:flex-row items-center gap-6">
+                <div>
+                    <h1 class="hero-name font-['Manrope'] font-800 text-5xl md:text-6xl tracking-[0.18em] text-white">
+                        Marcus <br />Chan
+                    </h1>
+                    <p class="hero-title font-['DM_Mono'] font-300 text-lg tracking-[0.12em] text-white/50 mt-2">
+                        Software Engineer
+                    </p>
+                    <div class="hero-social flex gap-5 mt-6 justify-center md:justify-start">
+                        <a
+                            href="https://github.com/mcwhare"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="social-link"
+                            aria-label="GitHub">
+                            <img src="assets/Github2.png" alt="GitHub" class="w-8 h-8" />
+                        </a>
+                        <a
+                            href="https://linkedin.com/in/mcwhare"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="social-link"
+                            aria-label="LinkedIn">
+                            <img src="assets/Linkedin2.png" alt="LinkedIn" class="w-8 h-8" />
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-avatar">
+                    <div
+                        class="avatar-ring w-40 h-40 rounded-full overflow-hidden bg-white/10 border border-white/20 flex items-center justify-center">
+                        <img
+                            src="assets/profile.png"
+                            alt="Marcus Chan"
+                            class="w-full h-full object-cover"
+                            onerror="this.style.display='none'" />
+                    </div>
+                </div>
             </div>
-            <div class="hero-image">
-                <img src="assets/profile.png" alt="Profile" />
+        </section>
+
+        <!-- ABOUT -->
+        <section id="about" class="relative z-10 py-24 px-6 max-w-4xl mx-auto">
+            <h2 class="section-heading font-['Manrope'] font-300 text-5xl text-center mb-14 tracking-wider">
+                About Me
+            </h2>
+            <div class="flex flex-wrap justify-center items-center gap-4">
+                <div class="fade-tag tag-bubble">Software Engineering student<br />at Monash University</div>
+                <div class="fade-tag tag-bubble">Currently looking for any<br />employment or work<br />experience</div>
+                <div class="fade-tag tag-bubble">
+                    Range of skills including UI/<br />UX, quality testing, and full<br />stack development
+                </div>
+                <div class="fade-tag tag-bubble">Self-taught graphic designer</div>
+                <div class="fade-tag tag-bubble">
+                    Currently working as CTO of <br />
+                    PivotPoint Education
+                </div>
             </div>
-        </header>
+        </section>
 
-        <!-- Main Content -->
-        <main class="content-grid">
+        <!-- SKILLS — desktop free-float layout -->
+        <!-- SKILLS — desktop free-float layout -->
+        <section class="desktop-skills relative z-10 py-16 px-6 max-w-6xl mx-auto">
+            <!-- Languages + Frameworks side by side -->
+            <div class="skill-section mb-4">
+                <div class="bubble-field" style="height: 320px">
+                    <span
+                        class="bubble-heading section-subheading font-['Manrope'] font-300 tracking-wide"
+                        style="
+                            position: relative;
+                            left: 18%;
+                            top: 2%;
+                            transform: translateX(-50%);
+                            white-space: nowrap;
+                            font-size: clamp(1.6rem, 3vw, 2.4rem);
+                        "
+                        >Languages</span
+                    >
+                    <span class="skill-tag" data-cx="5" data-cy="34">English</span>
+                    <span class="skill-tag" data-cx="19" data-cy="29">Python</span>
+                    <span class="skill-tag" data-cx="37" data-cy="28">Music</span>
+                    <span class="skill-tag" data-cx="5" data-cy="56">Dart</span>
+                    <span class="skill-tag" data-cx="25" data-cy="48">Java</span>
+                    <span class="skill-tag" data-cx="15" data-cy="52">JS</span>
+                    <span class="skill-tag" data-cx="37" data-cy="62">C++</span>
+                    <span
+                        class="bubble-heading section-subheading font-['Manrope'] font-300 tracking-wide"
+                        style="
+                            position: relative;
+                            left: 40%;
+                            top: 2%;
+                            transform: translateX(-50%);
+                            white-space: nowrap;
+                            font-size: clamp(1.6rem, 3vw, 2.4rem);
+                        "
+                        >Frameworks and Tools</span
+                    >
+                    <span class="skill-tag" data-cx="60" data-cy="30">Flutter</span>
+                    <span class="skill-tag" data-cx="78" data-cy="26">React</span>
+                    <span class="skill-tag" data-cx="59" data-cy="52">Jira</span>
+                    <span class="skill-tag" data-cx="72" data-cy="60">Git</span>
+                    <span class="skill-tag" data-cx="86" data-cy="48">React native</span>
+                    <span class="skill-tag" data-cx="84" data-cy="72">UE5</span>
+                </div>
+            </div>
 
-            <section id="about" class="card">
-                <h2>About:</h2>
-                <p>
-                    Software Engineering student at Monash University.<br><br>
-                    Aspiring software engineer and designer.<br><br>
-                    Currently looking for any employment or work experience.<br><br>
-                    <b>Languages:</b> English, Python, Java, Dart, React, C++<br>
-                    <b>Software:</b> Fusion360, SolidWorks, Figma, DaVinci Resolve
+            <!-- Design + Skills side by side (updated) -->
+            <div class="skill-section mb-16">
+                <div class="flex gap-6">
+                    <!-- Design bubble field -->
+                    <div class="bubble-field flex-1" style="height: 280px">
+                        <span
+                            class="bubble-heading section-subheading font-['Manrope'] font-300 tracking-wide"
+                            style="
+                                position: relative;
+                                left: 43%;
+                                top: 2%;
+                                transform: translateX(-50%);
+                                white-space: nowrap;
+                                font-size: clamp(1.6rem, 3vw, 2.4rem);
+                            "
+                            >Design</span
+                        >
+                        <span class="skill-tag" data-cx="9" data-cy="55">Fusion360</span>
+                        <span class="skill-tag" data-cx="26" data-cy="42">Figma</span>
+                        <span class="skill-tag" data-cx="18" data-cy="72">Solidworks</span>
+                        <span class="skill-tag" data-cx="43" data-cy="48">Canva</span>
+                        <span class="skill-tag" data-cx="43" data-cy="74">Paint.NET</span>
+                        <span class="skill-tag" data-cx="68" data-cy="64">Davinci Resolve</span>
+                        <span class="skill-tag" data-cx="72" data-cy="44">MS Paint</span>
+                    </div>
+
+                    <!-- Skills bubble field (new) -->
+                    <div class="bubble-field flex-1" style="height: 280px">
+                        <span
+                            class="bubble-heading section-subheading font-['Manrope'] font-300 tracking-wide"
+                            style="
+                                position: relative;
+                                left: 43%;
+                                top: 2%;
+                                transform: translateX(-50%);
+                                white-space: nowrap;
+                                font-size: clamp(1.6rem, 3vw, 2.4rem);
+                            "
+                            >Skills</span
+                        >
+                        <span class="skill-tag" data-cx="19" data-cy="45">Agile SAFe</span>
+                        <span class="skill-tag" data-cx="100" data-cy="42">Graphic Design</span>
+                        <span class="skill-tag" data-cx="18" data-cy="72">CAD</span>
+                        <span class="skill-tag" data-cx="43" data-cy="48">UI/UX</span>
+                        <span class="skill-tag" data-cx="49" data-cy="79">Algorithms and Data Structures</span>
+                        <span class="skill-tag" data-cx="68" data-cy="54">Game Design</span>
+                        <span class="skill-tag" data-cx="92" data-cy="67">Video Editing</span>
+                        <span class="skill-tag" data-cx="55" data-cy="30">Excel and Spreadsheets</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS — mobile column layout (hidden on desktop) -->
+        <div class="mobile-skills relative z-10">
+            <div class="mobile-skill-group">
+                <h3>Languages</h3>
+                <div class="tags">
+                    <span>English</span>
+                    <span>Python</span>
+                    <span>Music</span>
+                    <span>Dart</span>
+                    <span>Java</span>
+                    <span>JS</span>
+                    <span>C++</span>
+                </div>
+            </div>
+            <div class="mobile-skill-group">
+                <h3>Frameworks and Tools</h3>
+                <div class="tags">
+                    <span>Flutter</span>
+                    <span>React</span>
+                    <span>Jira</span>
+                    <span>Git</span>
+                    <span>React Native</span>
+                    <span>UE5</span>
+                </div>
+            </div>
+            <div class="mobile-skill-group">
+                <h3>Design</h3>
+                <div class="tags">
+                    <span>Fusion360</span>
+                    <span>Figma</span>
+                    <span>Solidworks</span>
+                    <span>Canva</span>
+                    <span>Paint.NET</span>
+                    <span>Davinci Resolve</span>
+                    <span>MS Paint</span>
+                </div>
+            </div>
+            <div class="mobile-skill-group">
+                <h3>Skills</h3>
+                <div class="tags">
+                    <span>Agile SAFe</span>
+                    <span>Graphic Design</span>
+                    <span>CAD</span>
+                    <span>UI/UX</span>
+                    <span>Algorithms and Data Structures</span>
+                    <span>Game Design</span>
+                    <span>Video Editing</span>
+                    <span>Excel and other Spreadsheets</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROJECTS -->
+        <section id="projects" class="relative z-10 py-24 px-6 max-w-5xl mx-auto">
+            <h2 class="section-heading font-['Manrope'] font-300 text-5xl text-center mb-16 tracking-wider">
+                Projects
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="project-card" data-modal-image="assets/notify-graphic.png">
+                    <div class="project-card-header">
+                        <p class="font-['Syne'] text-xs tracking-widest text-white/50 uppercase">
+                            <code>Notify — Simple Reminder App</code>
+                        </p>
+                        <a
+                            href="https://play.google.com/store/apps/details?id=com.mcwhare.noti"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="project-link"
+                            aria-label="View on Google Play">
+                            <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="project-img-wrapper">
+                        <img
+                            src="assets/notify-preview2.png"
+                            alt="Notify Reminder App"
+                            onerror="this.parentElement.classList.add('img-missing')" />
+                        <div class="velox-bg-text" aria-hidden="true">Notify</div>
+                    </div>
+                    <div class="project-body">
+                        <p class="font-['DM_Mono'] text-xs leading-relaxed text-white/60">
+                            Notify is the smarter way to stay on top of your tasks. Instead of relying on fleeting
+                            pop-ups or buried to-do lists, Notify lets you pin reminders directly to your notification
+                            shade so they're always visible, right where you'll see them. Available on the Google
+                            Playstore.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="project-card" data-modal-image="assets/velox-graphic.png">
+                    <div class="project-card-header">
+                        <p class="font-['Syne'] text-xs tracking-widest text-white/50 uppercase">
+                            Velox — Focus Trainer
+                        </p>
+                        <a
+                            href="https://play.google.com/store/apps/details?id=com.mcwhare.trainer"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="project-link"
+                            aria-label="View on Google Play">
+                            <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="project-img-wrapper">
+                        <img
+                            src="assets/velox-preview.png"
+                            alt="Velox Focus Trainer"
+                            onerror="this.parentElement.classList.add('img-missing')" />
+                        <div class="velox-bg-text" aria-hidden="true">Velox</div>
+                    </div>
+                    <div class="project-body">
+                        <p class="font-['DM_Mono'] text-xs leading-relaxed text-white/60">
+                            Velox, Latin word for speed. Move, work, take place faster. More than just a game, Velox is
+                            a training tool designed to sharpen your focus and improve your performance in everyday
+                            life. Short, repeatable tasks make it easy to train consistently and develop focus, reaction
+                            speed, and cognitive control. Available on the Google Playstore.
+                        </p>
+                    </div>
+                </div>
+                <div class="project-card" data-modal-image="misc-images/Proust.png">
+                    <div class="project-card-header">
+                        <p class="font-['Syne'] text-xs tracking-widest text-white/50 uppercase">Proust Side Table</p>
+                        <a
+                            href="https://www.linkedin.com/pulse/recreating-random-side-table-i-saw-online-marcus-chan-beqye/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="project-link"
+                            aria-label="View on LinkedIn">
+                            <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="project-img-wrapper">
+                        <img
+                            src="assets/proust-preview.png"
+                            alt="Proust Side Table"
+                            onerror="this.parentElement.classList.add('img-missing')" />
+                        <div class="velox-bg-text" aria-hidden="true">Proust Side Table</div>
+                    </div>
+                    <div class="project-body">
+                        <p class="font-['DM_Mono'] text-xs leading-relaxed text-white/60">
+                            Recreation of the Proust Side Table designed by João Teixeira. Done with CAD, CNC, and lots
+                            of handiwork. Click the link to learn more.
+                        </p>
+                    </div>
+                </div>
+
+                <!--
+                <div class="project-card">
+                    <div class="project-card-header">
+                        <p class="font-['Syne'] text-xs tracking-widest text-white/50 uppercase">
+                            Velox — Focus Trainer
+                        </p>
+                    </div>
+                    <div class="project-img-wrapper">
+                        <img
+                            src="project4-placeholder.jpg"
+                            alt="Velox Focus Trainer"
+                            onerror="this.parentElement.classList.add('img-missing')" />
+                        <div class="velox-bg-text" aria-hidden="true">Velox</div>
+                    </div>
+                    <div class="project-body">
+                        <p class="font-['DM_Mono'] text-xs leading-relaxed text-white/60">
+                            Velox, Latin word for speed. Move, work, take place faster. More than just a game, Velox is
+                            a training tool designed to sharpen your focus and improve your performance in everyday
+                            life. Short, repeatable tasks make it easy to train consistently and develop focus, reaction
+                            speed, and cognitive control. Available on the Google Playstore.
+                        </p>
+                    </div>
+                </div>
+                -->
+            </div>
+        </section>
+
+        <!-- BLOG -->
+        <section id="blog" class="relative z-10 py-24 px-6 max-w-5xl mx-auto">
+            <h2 class="section-heading font-['Manrope'] font-300 text-5xl text-center mb-4 tracking-wider">Blog</h2>
+            <div class="text-center mb-14">
+                <p id="quote-text" class="font-['Manrope'] italic text-2xl text-white/80 mb-2">"Some random quote"</p>
+                <p id="quote-timer" class="font-['DM_Mono'] text-xs text-white/30 tracking-widest">
+                    refreshes in 23h 13m 4s
                 </p>
-            </section>
-
-            <section id="socials" class="card">
-                <div class="avatar"><img src="assets/profile.png" alt="Profile" /><p>Marcus Chan</p></div>
-                <div class="icons">
-                    <a href="https://github.com/mcwhare/"><img src="assets/Github.png" alt="Github" /></a>
-                    <a href="https://www.linkedin.com/in/marcus-chan-37a697310/"><img src="assets/Linkedin.png" alt="LinkedIn" /></a>
-                    <a href="mailto:marcus.chanwh05@gmail.com" class="copy-button"><img src="assets/Mail.png" alt="Mail" /></a>
-                </div>
-                <div></div>
-            </section>
-
-            <section id="projects" class="card">
-                <h2>Projects and experience:</h2>
-                <p><strong>Notify:</strong> Minimalist reminder app made with Flutter.</p>
-                <p><strong>Velox:</strong> Focus trainer app made with React Native.</p>
-                <p><strong>PivotPoint Education:</strong> Currently working as CTO.</p>
-            </section>
-
-            <section id="notify" class="card">
-                <div class="card-image" onclick="openOverlay('notifyOverlay')"></div>
-                <div class="card-content">
-                    <h2>Notify</h2>
-                    <p>Notify is the smarter way to stay on top of your tasks. Instead of relying on fleeting pop-ups or buried to-do lists, Notify lets you pin reminders directly to your notification shade so they're always visible, right where you'll see them.
-                        Available on the Google Playstore.</p>
-                </div>
-            </section>
-
-            <section id="velox" class="card">
-                <div class="card-image" onclick="openOverlay('veloxOverlay')"></div>
-                <div class="card-content">
-                    <h2>Velox</h2>
-                    <p>Velox, Latin word for speed. Move, work, take place faster. More than just a game, Velox is a training tool designed to sharpen your focus and improve your performance in everyday life. Short, repeatable tasks make it easy to train consistently and develop focus, reaction speed, and cognitive control.
-                        Available on the Google Playstore.</p>
-                </div>
-            </section>
-
-            <section id="clicker" class="card">
-                <a href="game/game.html">
-                    <div class="card-image"></div>
-                    <div class="card-content">
-                        <h2>Key presser</h2>
-                        <p>A random game I made</p>
+            </div>
+            <div class="grid grid-cols-3 gap-5 mb-12">
+                <!-- Blog Card 1 - Clickable -->
+                <a href="game/game.html" class="blog-card-link" target="_blank">
+                    <div class="blog-card">
+                        <div class="blog-img-wrapper">
+                            <img
+                                src="assets/clicker.png"
+                                alt="Key Presser Game"
+                                onerror="this.parentElement.classList.add('img-missing')" />
+                            <div class="velox-bg-text small" aria-hidden="true">empty</div>
+                        </div>
+                        <p class="font-['DM_Mono'] text-xs text-center text-white/50 mt-3">
+                            Key presser<br />Random game I made one day
+                        </p>
                     </div>
                 </a>
-            </section>
 
-            <section id="random" class="card">
-                <a href="misc.html">
-                    <div class="card-image"></div>
-                    <div class="card-content">
-                        <h2>Miscellaneous projects</h2>
-                        <p>An assortment of random designs, ideas, models and prototypes.</p>
+                <!-- Blog Card 2 - Clickable -->
+                <a href="https://www.instagram.com/pivotpoint_education/" class="blog-card-link" target="_blank">
+                    <div class="blog-card">
+                        <div class="blog-img-wrapper">
+                            <img
+                                src="assets/PivotPoint.png"
+                                alt="PivotPoint"
+                                onerror="this.parentElement.classList.add('img-missing')" />
+                            <div class="velox-bg-text small" aria-hidden="true">empty</div>
+                        </div>
+                        <p class="font-['DM_Mono'] text-xs text-center text-white/50 mt-3">Check out PivotPoint!</p>
                     </div>
                 </a>
-            </section>
 
-
-
-            <!-- Notify Overlay -->
-            <div id="notifyOverlay" class="overlay" onclick="closeOverlay('notifyOverlay')">
-                <div class="overlay-content" onclick="event.stopPropagation()">
-                    <img src="assets/notify-graphic.png" alt="Notify App Detailed Graphic" class="overlay-image">
-                    <button class="close-btn" onclick="closeOverlay('notifyOverlay')">&times;</button>
-                </div>
+                <!-- Blog Card 3 - Clickable -->
+                <a href="misc.html" class="blog-card-link" target="_blank">
+                    <div class="blog-card">
+                        <div class="blog-img-wrapper">
+                            <img
+                                src="assets/misc-preview.png"
+                                alt="Misc projects"
+                                onerror="this.parentElement.classList.add('img-missing')" />
+                            <div class="velox-bg-text small" aria-hidden="true">empty</div>
+                        </div>
+                        <p class="font-['DM_Mono'] text-xs text-center text-white/50 mt-3">Some misc product designs</p>
+                    </div>
+                </a>
             </div>
-
-            <!-- Velox Overlay -->
-            <div id="veloxOverlay" class="overlay" onclick="closeOverlay('veloxOverlay')">
-                <div class="overlay-content" onclick="event.stopPropagation()">
-                    <img src="assets/velox-graphic.png" alt="Velox App Detailed Graphic" class="overlay-image">
-                    <button class="close-btn" onclick="closeOverlay('veloxOverlay')">&times;</button>
-                </div>
+            <div class="flex justify-center">
+                <button class="see-more-btn font-['Syne'] text-sm tracking-widest uppercase">See More</button>
             </div>
+        </section>
 
-
-
-        </main>
-
-        <footer class="footer">
-            <div class="footer-content"></div>
+        <!-- FOOTER -->
+        <footer class="relative z-10 text-center py-12 font-['DM_Mono'] text-xs text-white/20 tracking-widest">
+            2026 mcwh
         </footer>
 
+        <script src="main.js"></script>
     </body>
 </html>
