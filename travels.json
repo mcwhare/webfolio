@@ -1,10 +1,52 @@
 [
   {
-    "date": "Jan 2023",
-    "location": "Japan",
-    "title": "Mount Fuji, Fujikawaguchiko",
-    "image": "blog-images/japan6.jpg",
-    "longImage": "blog-images/japan6.jpg"
+    "date": "Dec 2025",
+    "location": "China",
+    "title": "Funny Human Coffee, Guangzhou",
+    "image": "blog-images/cn1.png",
+    "longImage": "blog-images/cn1.png"
+  },
+  {
+    "date": "Dec 2025",
+    "location": "China",
+    "title": "Funny Human Coffee, Guangzhou",
+    "image": "blog-images/cn3.jpg",
+    "longImage": "blog-images/cn3.jpg"
+  },
+  {
+    "date": "Dec 2025",
+    "location": "China",
+    "title": "Beijing Road, Guangzhou",
+    "image": "blog-images/cn2.jpg",
+    "longImage": "blog-images/cn2.jpg"
+  },
+  {
+    "date": "Dec 2025",
+    "location": "China",
+    "title": "Xintiandi, Fo Shan",
+    "image": "blog-images/cn5.jpg",
+    "longImage": "blog-images/cn5.jpg"
+  },
+  {
+    "date": "Dec 2025",
+    "location": "Singapore",
+    "title": "Gardens by the Bay",
+    "image": "blog-images/sg1.jpg",
+    "longImage": "blog-images/sg1.jpg"
+  },
+  {
+    "date": "Dec 2025",
+    "location": "Singapore",
+    "title": "Marina Bay Sands",
+    "image": "blog-images/sg2.jpg",
+    "longImage": "blog-images/sg2.jpg"
+  },
+  {
+    "date": "Dec 2025",
+    "location": "Singapore",
+    "title": "School of the Arts",
+    "image": "blog-images/sg3.jpg",
+    "longImage": "blog-images/sg3.jpg"
   },
   {
     "date": "Dec 2024",
@@ -21,10 +63,45 @@
     "longImage": "blog-images/nz7v2.jpg"
   },
   {
+    "date": "Dec 2024",
+    "location": "New Zealand",
+    "title": "Lake Esplanade, Queenstown",
+    "image": "blog-images/nz3.jpg",
+    "longImage": "blog-images/nz3.jpg"
+  },
+  {
+    "date": "Dec 2024",
+    "location": "New Zealand",
+    "title": "Lindis Pass",
+    "image": "blog-images/nz15.jpg",
+    "longImage": "blog-images/nz15.jpg"
+  },
+  {
+    "date": "Dec 2024",
+    "location": "New Zealand",
+    "title": "That Wanaka Tree",
+    "image": "blog-images/nz14.jpg",
+    "longImage": "blog-images/nz14.jpg"
+  },
+  {
     "date": "July 2024",
     "location": "Australia",
     "title": "Phillip Island Melbourne Night Sky",
     "image": "blog-images/nightsky1.jpg",
     "longImage": "blog-images/nightsky1.jpg"
+  },
+  {
+    "date": "Jan 2024",
+    "location": "Japan",
+    "title": "Mount Fuji, Fujikawaguchiko",
+    "image": "blog-images/japan6.jpg",
+    "longImage": "blog-images/japan6.jpg"
+  },
+  {
+    "date": "Jan 2024",
+    "location": "Japan",
+    "title": "Fujikawaguchiko",
+    "image": "blog-images/japan4.jpg",
+    "longImage": "blog-images/japan4.jpg"
   }
 ]

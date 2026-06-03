@@ -190,6 +190,16 @@
     }
 })();
 
+/* ── IMAGE PRELOADING OPTIMIZATION ───────────────── */
+function preloadImages(imageUrls) {
+    imageUrls.forEach(url => {
+        const img = new Image();
+        img.loading = "eager";
+        img.src = url;
+    });
+}
+
+
 /* ── TRAVELS SYSTEM WITH POLAROID CARDS ───────────── */
 (async function initTravels() {
     try {
@@ -202,14 +212,14 @@
         modal.id = "travel-modal";
         modal.className = "project-modal";
         modal.innerHTML = `
-      <div class="modal-overlay"></div>
-      <div class="modal-container">
-        <button class="modal-close" aria-label="Close modal">✕</button>
-        <div class="modal-content">
-          <img id="modal-image" src="" alt="Travel preview">
-        </div>
-      </div>
-    `;
+  <div class="modal-overlay"></div>
+  <div class="modal-container">
+    <button class="modal-close" aria-label="Close modal">✕</button>
+    <div class="modal-content">
+      <img id="modal-image" src="" alt="Travel preview">
+    </div>
+  </div>
+`;
         document.body.appendChild(modal);
 
         const modalOverlay = modal.querySelector(".modal-overlay");
@@ -235,29 +245,53 @@
             }, 300);
         }
 
+        // Close on X button
         modalClose.addEventListener("click", closeModal);
+
+        // Close on overlay click (outside the image container)
         modalOverlay.addEventListener("click", closeModal);
+
+        // Close on ESC key
         document.addEventListener("keydown", (e) => {
-            if (e.key === "Escape" && modal.classList.contains("active")) closeModal();
+            if (e.key === "Escape" && modal.classList.contains("active")) {
+                closeModal();
+            }
         });
 
-        // Create polaroid-style travel cards
+        // Prevent clicks on the modal container from closing (only overlay should close)
+        const modalContainer = modal.querySelector(".modal-container");
+        modalContainer.addEventListener("click", (e) => {
+            e.stopPropagation();
+        });
+
+        // Also prevent clicks on the image from closing
+        modalImage.addEventListener("click", (e) => {
+            e.stopPropagation();
+        });
+
+        // Create polaroid-style travel cards with optimized images
         travels.forEach((travel) => {
             const card = document.createElement("div");
             card.className = "travel-card";
             card.setAttribute("data-modal-image", travel.longImage || travel.image);
             card.innerHTML = `
-    <div class="travel-img-wrapper">
-      <img src="${travel.image}" alt="${travel.title}" onerror="this.parentElement.classList.add('img-missing'); this.style.display='none'" />
-    </div>
-    <div class="travel-body">
-      <div class="travel-header">
-        <div class="travel-location">${travel.location}</div>
-        <div class="travel-date">${travel.date}</div>
-      </div>
-      <div class="travel-title">${travel.title}</div>
-    </div>
-  `;
+        <div class="travel-img-wrapper">
+            <img
+                src="${travel.image}"
+                alt="${travel.title}"
+                loading="lazy"
+                decoding="async"
+                onerror="this.parentElement.classList.add('img-missing'); this.style.display='none'"
+            />
+        </div>
+        <div class="travel-body">
+            <div class="travel-header">
+                <div class="travel-location">${travel.location}</div>
+                <div class="travel-date">${travel.date}</div>
+            </div>
+            <div class="travel-title">${travel.title}</div>
+        </div>
+    `;
 
             card.style.cursor = "pointer";
             card.addEventListener("click", (e) => {
