@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "postcss": "^8.5.28",
+    "tailwindcss": "^4.3.3"
+  },
+  "scripts": {
+    "build": "postcss src/input.css -o tailwind.css --env production",
+    "dev": "postcss src/input.css -o tailwind.css --watch"
+  },
+  "devDependencies": {
+    "postcss-cli": "^12.0.0"
+  }
+}
