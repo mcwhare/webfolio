@@ -874,3 +874,41 @@ body {
     height: 40px;
   }
 }
+
+/* =========================================
+   BUBBLES — load AFTER newstyle.css
+   Positioning/scale now come from bubbles.js
+   via --x / --y / --s. !important beats the
+   old left/top + transform rules.
+   ========================================= */
+
+.skill-tag,
+.tag-bubble {
+  transform: translate3d(var(--x, 0px), var(--y, 0px), 0) scale(var(--s, 1)) !important;
+  transition: opacity 0.6s ease !important;
+  will-change: transform;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* skill tags are placed by JS from (0,0) of their field */
+.skill-tag {
+  position: absolute;
+  left: 0 !important;
+  top: 0 !important;
+  opacity: 0;
+}
+.skill-tag.visible { opacity: 1; }
+
+/* draggable fields */
+.bubble-field[data-draggable] .skill-tag {
+  cursor: grab;
+  touch-action: none;
+}
+.bubble-field[data-draggable] .skill-tag.is-dragging {
+  cursor: grabbing;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-tag, .tag-bubble { will-change: auto; }
+}
