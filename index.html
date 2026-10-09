@@ -4,9 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>mcwh</title>
+        <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="newstyle.css" />
-        <link rel="stylesheet" href="tailwind.css" />
-        <link rel="stylesheet" href="bubbles.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
@@ -87,21 +86,21 @@
                 <div class="fade-tag tag-bubble">Software Engineering student<br />at Monash University</div>
                 <div class="fade-tag tag-bubble">Currently looking for any<br />employment or work<br />experience</div>
                 <div class="fade-tag tag-bubble">
-                    Range of skills including UI/<br />UX, Agentic AI Development, and Full<br />Stack development
+                    Range of skills including UI/<br />UX, quality testing, and full<br />stack development
                 </div>
                 <div class="fade-tag tag-bubble">Self-taught graphic designer</div>
                 <div class="fade-tag tag-bubble">
-                    Currently working as a Contract Software Engineer at <br />
+                    Currently working as CTO of <br />
                     PivotPoint Education
                 </div>
             </div>
         </section>
 
-        <!-- SKILLS -->
-        <section class="desktop-skills relative z-10 py-16 px-6 max-w-6xl mx-auto">
+        <!-- SKILLS — desktop free-float layout -->
+        <section class="desktop-skills relative z-10 py-16 px-6 max-w-6xl mx-auto flex flex-col items-center">
             <!-- Languages + Frameworks side by side -->
-            <div class="skill-section mb-4">
-                <div class="bubble-field" data-draggable style="height: 320px">
+            <div class="skill-section mb-4 w-full flex justify-center">
+                <div class="bubble-field w-full max-w-5xl" style="height: 320px">
                     <span
                         class="bubble-heading section-subheading font-['Manrope'] font-300 tracking-wide"
                         style="
@@ -138,15 +137,16 @@
                     <span class="skill-tag" data-cx="78" data-cy="26">React Native</span>
                     <span class="skill-tag" data-cx="59" data-cy="52">Jira</span>
                     <span class="skill-tag" data-cx="72" data-cy="60">Git</span>
+                    <span class="skill-tag" data-cx="86" data-cy="48">React native</span>
                     <span class="skill-tag" data-cx="84" data-cy="72">UE5</span>
                 </div>
             </div>
 
             <!-- Design + Skills side by side (updated) -->
-            <div class="skill-section mb-16">
-                <div class="flex gap-6">
+            <div class="skill-section mb-16 w-full flex justify-center">
+                <div class="flex gap-6 w-full max-w-5xl justify-center">
                     <!-- Design bubble field -->
-                    <div class="bubble-field flex-1" data-draggable style="height: 350px">
+                    <div class="bubble-field flex-1" style="height: 280px">
                         <span
                             class="bubble-heading section-subheading font-['Manrope'] font-300 tracking-wide"
                             style="
@@ -169,7 +169,7 @@
                     </div>
 
                     <!-- Skills bubble field (new) -->
-                    <div class="bubble-field flex-1" data-draggable style="height: 350px">
+                    <div class="bubble-field flex-1" style="height: 280px">
                         <span
                             class="bubble-heading section-subheading font-['Manrope'] font-300 tracking-wide"
                             style="
@@ -254,7 +254,7 @@
             <h2 class="section-heading font-['Manrope'] font-300 text-5xl text-center mb-16 tracking-wider">
                 Projects
             </h2>
-            <div class="grid md:grid-cols-2 gap-6">
+            <div class="grid md:grid-cols-2 gap-6 justify-items-center">
                 <div class="project-card" data-modal-image="assets/notify-graphic.png">
                     <div class="project-card-header">
                         <p class="font-['Syne'] text-xs tracking-widest text-white/50 uppercase">
@@ -431,7 +431,7 @@
                     refreshes in 23h 13m 4s
                 </p>
             </div>
-            <div class="grid grid-cols-3 gap-5 mb-12">
+            <div class="grid md:grid-cols-3 gap-5 mb-12 justify-items-center">
                 <!-- Blog Card 1 - Clickable -->
                 <a href="game/game.html" class="blog-card-link" target="_blank">
                     <div class="blog-card">
@@ -449,7 +449,7 @@
                 </a>
 
                 <!-- Blog Card 2 - Clickable -->
-                <a href="https://pivotpointeducation.com.au" class="blog-card-link" target="_blank">
+                <a href="https://www.instagram.com/pivotpoint_education/" class="blog-card-link" target="_blank">
                     <div class="blog-card">
                         <div class="blog-img-wrapper">
                             <img
@@ -477,7 +477,8 @@
                 </a>
             </div>
             <div class="flex justify-center">
-                <a href="newblog.html" class="see-more-btn font-['Syne'] text-sm tracking-widest uppercase">See More</a>
+                <a href="newblog.html" class="see-more-btn font-['Syne'] text-sm tracking-widest uppercase"
+                    >See More</a>
             </div>
         </section>
 
