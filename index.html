@@ -97,10 +97,10 @@
         </section>
 
         <!-- SKILLS — desktop free-float layout -->
-        <section class="desktop-skills relative z-10 py-16 px-6 max-w-6xl mx-auto flex flex-col items-center">
+        <section class="desktop-skills hidden md:flex relative z-10 py-16 px-6 max-w-6xl mx-auto flex-col items-center">
             <!-- Languages + Frameworks side by side -->
             <div class="skill-section mb-4 w-full flex justify-center">
-                <div class="bubble-field w-full max-w-5xl" style="height: 320px">
+                <div class="bubble-field w-full max-w-5xl" style="height: 320px" data-draggable>
                     <span
                         class="bubble-heading section-subheading font-['Manrope'] font-300 tracking-wide"
                         style="
@@ -146,7 +146,7 @@
             <div class="skill-section mb-16 w-full flex justify-center">
                 <div class="flex gap-6 w-full max-w-5xl justify-center">
                     <!-- Design bubble field -->
-                    <div class="bubble-field flex-1" style="height: 280px">
+                    <div class="bubble-field flex-1" style="height: 300px" data-draggable>
                         <span
                             class="bubble-heading section-subheading font-['Manrope'] font-300 tracking-wide"
                             style="
@@ -169,7 +169,7 @@
                     </div>
 
                     <!-- Skills bubble field (new) -->
-                    <div class="bubble-field flex-1" style="height: 280px">
+                    <div class="bubble-field flex-1" style="height: 300px" data-draggable>
                         <span
                             class="bubble-heading section-subheading font-['Manrope'] font-300 tracking-wide"
                             style="
@@ -198,7 +198,7 @@
         </section>
 
         <!-- SKILLS — mobile column layout (hidden on desktop) -->
-        <div class="mobile-skills relative z-10">
+        <div class="mobile-skills block md:hidden relative z-10">
             <div class="mobile-skill-group">
                 <h3>Languages</h3>
                 <div class="tags">
@@ -419,6 +419,46 @@
                         </p>
                     </div>
                 </div>
+
+                <div class="project-card" data-modal-image="assets/jobjobjob-graphic.png">
+                    <div class="project-card-header">
+                        <p class="font-['Syne'] text-xs tracking-widest text-white/50 uppercase">JOBJOBJOB</p>
+                        <a
+                            href="https://mcwhare.github.io/jobjobjob/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="project-link"
+                            aria-label="View Website">
+                            <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="project-img-wrapper">
+                        <img
+                            src="assets/jobjobjob-preview.png"
+                            alt="JOBJOBJOB"
+                            onerror="this.parentElement.classList.add('img-missing')" />
+                        <div class="velox-bg-text" aria-hidden="true">JOBJOBJOB</div>
+                    </div>
+                    <div class="project-body">
+                        <p class="font-['DM_Mono'] text-xs leading-relaxed text-white/60">
+                            Data visualiser for you and your friends to showcase your job hunt (or failures). Just like
+                            When2Meet but for job applications. Track and share your job applications with your friends
+                            and build a graph together in real time.
+                        </p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -431,54 +471,65 @@
                     refreshes in 23h 13m 4s
                 </p>
             </div>
-            <div class="grid md:grid-cols-3 gap-5 mb-12 justify-items-center">
+
+            <!-- Removed 'justify-items-center' so cards stretch to fill the columns -->
+            <div class="grid md:grid-cols-3 gap-5 mb-12">
                 <!-- Blog Card 1 - Clickable -->
-                <a href="game/game.html" class="blog-card-link" target="_blank">
-                    <div class="blog-card">
+                <a href="game/game.html" class="blog-card-link h-full w-full flex flex-col" target="_blank">
+                    <div class="blog-card h-full flex flex-col">
                         <div class="blog-img-wrapper">
                             <img
                                 src="assets/clicker.png"
                                 alt="Key Presser Game"
+                                class="w-full aspect-video object-cover"
                                 onerror="this.parentElement.classList.add('img-missing')" />
                             <div class="velox-bg-text small" aria-hidden="true">empty</div>
                         </div>
-                        <p class="font-['DM_Mono'] text-xs text-center text-white/50 mt-3">
+                        <p class="font-['DM_Mono'] text-xs text-center text-white/50 mt-3 flex-grow">
                             Key presser<br />Random game I made one day
                         </p>
                     </div>
                 </a>
 
                 <!-- Blog Card 2 - Clickable -->
-                <a href="https://www.instagram.com/pivotpoint_education/" class="blog-card-link" target="_blank">
-                    <div class="blog-card">
+                <a
+                    href="https://www.instagram.com/pivotpoint_education/"
+                    class="blog-card-link h-full w-full flex flex-col"
+                    target="_blank">
+                    <div class="blog-card h-full flex flex-col">
                         <div class="blog-img-wrapper">
                             <img
                                 src="assets/PivotPoint.png"
                                 alt="PivotPoint"
+                                class="w-full aspect-video object-cover"
                                 onerror="this.parentElement.classList.add('img-missing')" />
                             <div class="velox-bg-text small" aria-hidden="true">empty</div>
                         </div>
-                        <p class="font-['DM_Mono'] text-xs text-center text-white/50 mt-3">Check out PivotPoint!</p>
+                        <p class="font-['DM_Mono'] text-xs text-center text-white/50 mt-3 flex-grow">
+                            Check out PivotPoint!
+                        </p>
                     </div>
                 </a>
 
                 <!-- Blog Card 3 - Clickable -->
-                <a href="misc.html" class="blog-card-link" target="_blank">
-                    <div class="blog-card">
+                <a href="misc.html" class="blog-card-link h-full w-full flex flex-col" target="_blank">
+                    <div class="blog-card h-full flex flex-col">
                         <div class="blog-img-wrapper">
                             <img
                                 src="assets/misc-preview.png"
                                 alt="Misc projects"
+                                class="w-full aspect-video object-cover"
                                 onerror="this.parentElement.classList.add('img-missing')" />
                             <div class="velox-bg-text small" aria-hidden="true">empty</div>
                         </div>
-                        <p class="font-['DM_Mono'] text-xs text-center text-white/50 mt-3">Some misc product designs</p>
+                        <p class="font-['DM_Mono'] text-xs text-center text-white/50 mt-3 flex-grow">
+                            Some misc product designs
+                        </p>
                     </div>
                 </a>
             </div>
             <div class="flex justify-center">
-                <a href="newblog.html" class="see-more-btn font-['Syne'] text-sm tracking-widest uppercase"
-                    >See More</a>
+                <a href="newblog.html" class="see-more-btn font-['Syne'] text-sm tracking-widest uppercase">See More</a>
             </div>
         </section>
 
